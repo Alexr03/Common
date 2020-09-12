@@ -11,12 +11,26 @@ namespace Alexr03.Common.TCAdmin.Proxy
         
         public static void AddProxy(this CommandProxy commandProxy)
         {
-            CommandProxies.Add(commandProxy);
+            if (!CommandProxies.Contains(commandProxy))
+            {
+                CommandProxies.Add(commandProxy);
+            }
         }
 
         public static void RemoveProxy(this CommandProxy commandProxy)
         {
-            CommandProxies.Remove(commandProxy);
+            if (CommandProxies.Contains(commandProxy))
+            {
+                CommandProxies.Remove(commandProxy);
+            }
+        }
+        
+        public static void RemoveProxy(this string commandName)
+        {
+            if (CommandProxies.Any(x => x.CommandName == commandName))
+            {
+                CommandProxies.RemoveAll(x => x.CommandName == commandName);
+            }
         }
 
         public static void RegisterProxies()
@@ -29,12 +43,8 @@ namespace Alexr03.Common.TCAdmin.Proxy
         
         public static void RegisterProxy(this CommandProxy commandProxy)
         {
-            if (!CommandProxies.Contains(commandProxy))
-            {
-                CommandProxies.Add(commandProxy);
-            }
-            
             AppDomainManager.RegisterProxyCommand(commandProxy);
+            AddProxy(commandProxy);
         }
         
         public static void UnRegisterProxies()
@@ -49,11 +59,8 @@ namespace Alexr03.Common.TCAdmin.Proxy
 
         public static void UnRegisterProxy(string commandName)
         {
-            if (CommandProxies.Any(x => x.CommandName == commandName))
-            {
-                CommandProxies.RemoveAll(x => x.CommandName == commandName);
-            }
             AppDomainManager.UnregisterProxyCommand(commandName);
+            RemoveProxy(commandName);
         }
     }
 }

@@ -40,6 +40,10 @@
           <HintPath>..\packages\MySql.Data.6.7.9\lib\net45\MySql.Data.dll</HintPath>
           <Private>True</Private>
         </Reference>
+        <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
+          <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
         <Reference Include="System" />
         <Reference Include="System.Core" />
         <Reference Include="System.Data" />
@@ -163,7 +167,8 @@
         <Compile Include="TCAdmin\Permissions\PermissionManager.cs" />
         <Compile Include="TCAdmin\Proxy\ProxyManager.cs" />
         <Compile Include="TCAdmin\Proxy\Requests\ProxyRequest.cs" />
-        <Compile Include="Web\HttpResponses\JsonHttpStatusResult.cs" />
+        <Compile Include="Utilities.cs" />
+        <Compile Include="Web\HttpResponses\JsonNetResult.cs" />
     </ItemGroup>
     <ItemGroup>
       <None Include="app.config" />
