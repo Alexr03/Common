@@ -1,7 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using TCAdmin.SDK;
+using Alexr03.Common.TCAdmin.Proxy.Requests;
+using Newtonsoft.Json;
+using TCAdmin.SDK.Misc;
 using TCAdmin.SDK.Proxies;
+using TCAdmin.SDK.Web.References.ModuleApiGateway;
+using AppDomainManager = TCAdmin.SDK.AppDomainManager;
+using Server = TCAdmin.GameHosting.SDK.Objects.Server;
 
 namespace Alexr03.Common.TCAdmin.Proxy
 {
@@ -62,5 +68,51 @@ namespace Alexr03.Common.TCAdmin.Proxy
             AppDomainManager.UnregisterProxyCommand(commandName);
             RemoveProxy(commandName);
         }
+        
+        public static T Request<T>(string commandName,
+            object arguments, out CommandResponse commandResponse, bool waitForResponse = true,
+            ProxyRequestType requestType = ProxyRequestType.Xml, JsonSerializerSettings settings = null)
+        {
+            try
+            {
+                var server = Server.GetServerFromCache(1);
+                commandResponse = new CommandResponse();
+                if (server.ModuleApiGateway.ExecuteModuleCommand(commandName, arguments, ref commandResponse,
+                    waitForResponse))
+                {
+                    switch (requestType)
+                    {
+                        case ProxyRequestType.Xml:
+                        {
+                            var xmlToObject = (T) ObjectXml.XmlToObject(commandResponse.Response.ToString(), typeof(T));
+                            return xmlToObject;
+                        }
+                        case ProxyRequestType.Json:
+                            if (settings == null)
+                            {
+                                settings = Utilities.JsonSerializerSettings;
+                            }
+
+                            return JsonConvert.DeserializeObject<T>(commandResponse.Response.ToString(), settings);
+                        default:
+                            throw new ArgumentOutOfRangeException(nameof(requestType), requestType, null);
+                    }
+                }
+                
+                throw new Exception("Proxy command execution failed.");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                commandResponse = new CommandResponse {SerializedException = e.Message};
+                return Activator.CreateInstance<T>();
+            }
+        }
+    }
+    
+    public enum ProxyRequestType
+    {
+        Xml,
+        Json
     }
 }
