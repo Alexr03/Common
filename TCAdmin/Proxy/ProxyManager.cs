@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Alexr03.Common.TCAdmin.Proxy.Requests;
 using Newtonsoft.Json;
 using TCAdmin.SDK.Misc;
 using TCAdmin.SDK.Proxies;
@@ -14,8 +13,8 @@ namespace Alexr03.Common.TCAdmin.Proxy
     public static class ProxyManager
     {
         public static readonly List<CommandProxy> CommandProxies = new List<CommandProxy>();
-        
-        public static void AddProxy(this CommandProxy commandProxy)
+
+        private static void AddProxy(this CommandProxy commandProxy)
         {
             if (!CommandProxies.Contains(commandProxy))
             {
@@ -23,7 +22,7 @@ namespace Alexr03.Common.TCAdmin.Proxy
             }
         }
 
-        public static void RemoveProxy(this CommandProxy commandProxy)
+        private static void RemoveProxy(this CommandProxy commandProxy)
         {
             if (CommandProxies.Contains(commandProxy))
             {
@@ -31,7 +30,7 @@ namespace Alexr03.Common.TCAdmin.Proxy
             }
         }
         
-        public static void RemoveProxy(this string commandName)
+        private static void RemoveProxy(this string commandName)
         {
             if (CommandProxies.Any(x => x.CommandName == commandName))
             {
