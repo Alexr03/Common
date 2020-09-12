@@ -39,14 +39,12 @@ namespace Alexr03.Common.TCAdmin.Proxy
         
         public static void UnRegisterProxies()
         {
-            foreach (var commandProxy in CommandProxies)
+            foreach (var commandProxy in CommandProxies.ToList())
             {
-                if (CommandProxies.Contains(commandProxy))
-                {
-                    CommandProxies.Remove(commandProxy);
-                }
                 UnRegisterProxy(commandProxy.CommandName);
             }
+            
+            CommandProxies.Clear();
         }
 
         public static void UnRegisterProxy(string commandName)
