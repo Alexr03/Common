@@ -59,10 +59,4 @@ namespace Alexr03.Common.TCAdmin.Proxy
             AppDomainManager.UnregisterProxyCommand(commandName);
         }
     }
-
-    public enum Oof
-    {
-        help,
-        me
-    }
 }
