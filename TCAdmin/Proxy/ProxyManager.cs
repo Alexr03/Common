@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Alexr03.Common.TCAdmin.Permissions;
 using TCAdmin.SDK;
 using TCAdmin.SDK.Proxies;
 
@@ -9,7 +8,7 @@ namespace Alexr03.Common.TCAdmin.Proxy
     public static class ProxyManager
     {
         public static readonly List<CommandProxy> CommandProxies = new List<CommandProxy>();
-
+        
         public static void AddProxy(this CommandProxy commandProxy)
         {
             CommandProxies.Add(commandProxy);
