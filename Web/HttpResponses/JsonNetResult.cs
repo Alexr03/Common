@@ -25,7 +25,7 @@ namespace Alexr03.Common.Web.HttpResponses
                 response.ContentEncoding = this.ContentEncoding;
             if (this.Data == null)
                 return;
-            response.Write(JsonConvert.SerializeObject(Data, Formatting.Indented, Utilities.JsonSerializerSettings));
+            response.Write(JsonConvert.SerializeObject(Data, Formatting.Indented, Utilities.NoErrorJsonSettings));
         }
     }
 }

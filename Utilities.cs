@@ -4,12 +4,8 @@ namespace Alexr03.Common
 {
     public class Utilities
     {
-        public static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings
+        public static readonly JsonSerializerSettings NoErrorJsonSettings = new JsonSerializerSettings
         {
-            ObjectCreationHandling = ObjectCreationHandling.Auto,
-            ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
-            MissingMemberHandling = MissingMemberHandling.Ignore,
-            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
             Error = (sender, args) =>
             {
                 args.ErrorContext.Handled = true;

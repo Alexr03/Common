@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Alexr03.Common.TCAdmin.Proxy.Requests;
 using Newtonsoft.Json;
 using TCAdmin.SDK.Misc;
 using TCAdmin.SDK.Proxies;
@@ -67,7 +68,7 @@ namespace Alexr03.Common.TCAdmin.Proxy
             AppDomainManager.UnregisterProxyCommand(commandName);
             RemoveProxy(commandName);
         }
-        
+
         public static T Request<T>(string commandName,
             object arguments, out CommandResponse commandResponse, bool waitForResponse = true,
             ProxyRequestType requestType = ProxyRequestType.Xml, JsonSerializerSettings settings = null)
@@ -89,7 +90,7 @@ namespace Alexr03.Common.TCAdmin.Proxy
                         case ProxyRequestType.Json:
                             if (settings == null)
                             {
-                                settings = Utilities.JsonSerializerSettings;
+                                settings = Utilities.NoErrorJsonSettings;
                             }
 
                             return JsonConvert.DeserializeObject<T>(commandResponse.Response.ToString(), settings);

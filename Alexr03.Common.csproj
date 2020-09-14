@@ -168,14 +168,13 @@
         <Compile Include="TCAdmin\Proxy\ProxyManager.cs" />
         <Compile Include="TCAdmin\Proxy\Requests\ProxyRequest.cs" />
         <Compile Include="Utilities.cs" />
+        <Compile Include="Web\Attributes\ActionFilters\RequestActionLogAttribute.cs" />
+        <Compile Include="Web\Attributes\ActionFilters\RequiresPermissionAttribute.cs" />
         <Compile Include="Web\HttpResponses\JsonNetResult.cs" />
     </ItemGroup>
     <ItemGroup>
       <None Include="app.config" />
       <None Include="packages.config" />
-    </ItemGroup>
-    <ItemGroup>
-      <Folder Include="Web" />
     </ItemGroup>
     <ItemGroup>
       <Content Include=".gitignore" />
