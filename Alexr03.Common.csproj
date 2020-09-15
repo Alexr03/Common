@@ -163,7 +163,10 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="Configuration\ConfigurationProvider.cs" />
+        <Compile Include="Configuration\LocalConfiguration.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
+        <Compile Include="TCAdmin\Configuration\DatabaseConfiguration.cs" />
         <Compile Include="TCAdmin\Permissions\PermissionManager.cs" />
         <Compile Include="TCAdmin\Proxy\ProxyManager.cs" />
         <Compile Include="TCAdmin\Proxy\Requests\ProxyRequest.cs" />
