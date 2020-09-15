@@ -170,9 +170,9 @@
         <Compile Include="TCAdmin\Permissions\PermissionManager.cs" />
         <Compile Include="TCAdmin\Proxy\ProxyManager.cs" />
         <Compile Include="TCAdmin\Proxy\Requests\ProxyRequest.cs" />
+        <Compile Include="TCAdmin\Web\Attributes\ActionFilters\RequiresPermissionAttribute.cs" />
         <Compile Include="Utilities.cs" />
         <Compile Include="Web\Attributes\ActionFilters\RequestActionLogAttribute.cs" />
-        <Compile Include="Web\Attributes\ActionFilters\RequiresPermissionAttribute.cs" />
         <Compile Include="Web\HttpResponses\JsonNetResult.cs" />
     </ItemGroup>
     <ItemGroup>

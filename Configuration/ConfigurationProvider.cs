@@ -7,9 +7,9 @@ namespace Alexr03.Common.Configuration
         protected abstract string ProviderName { get; set; }
 
         protected string ConfigName { get; set; }
-        public bool GenerateIfNonExisting { get; set; }
+        public bool GenerateIfNonExisting { get; set; } = true;
 
-        protected ConfigurationProvider()
+        protected ConfigurationProvider() : this(typeof(T).Name)
         {
         }
 

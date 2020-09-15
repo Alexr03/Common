@@ -2,7 +2,7 @@
 using TCAdmin.SDK.Objects;
 using TCAdmin.SDK.Security;
 
-namespace Alexr03.Common.Web.Attributes.ActionFilters
+namespace Alexr03.Common.TCAdmin.Web.Attributes.ActionFilters
 {
     public class RequiresPermissionAttribute : ActionFilterAttribute
     {

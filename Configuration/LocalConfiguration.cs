@@ -10,12 +10,13 @@ namespace Alexr03.Common.Configuration
     {
         private const string ConfigBaseLocation = "./Components/{0}/Config/";
         private readonly string _configLocation;
-        private readonly string _assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
+        private readonly string _assemblyName = typeof(T).Assembly.GetName().Name;
         
         protected override string ProviderName { get; set; } = "Local";
 
-        public LocalConfiguration()
+        public LocalConfiguration() : this(typeof(T).Name)
         {
+            
         }
 
         public LocalConfiguration(string configName) : base(configName)
@@ -26,17 +27,20 @@ namespace Alexr03.Common.Configuration
 
         public override T GetConfiguration()
         {
-            if (!File.Exists(_configLocation))
-            {
-                if (!GenerateIfNonExisting) return GetTObject();
-                Console.WriteLine("Config does not exist. Auto generating.");
-                var defaultT = GetTObject();
-                SetConfiguration(defaultT);
-                return defaultT;
-            }
-
             try
             {
+                if (!Directory.Exists(ConfigBaseLocation))
+                {
+                    Directory.CreateDirectory(ConfigBaseLocation);
+                }
+                if (!File.Exists(_configLocation))
+                {
+                    if (!GenerateIfNonExisting) return GetTObject();
+                    Console.WriteLine("Config does not exist. Auto generating.");
+                    var defaultT = GetTObject();
+                    SetConfiguration(defaultT);
+                    return defaultT;
+                }
                 var fileContents = File.ReadAllText(_configLocation);
                 var deserializeObject = JsonConvert.DeserializeObject<T>(fileContents);
                 return deserializeObject;

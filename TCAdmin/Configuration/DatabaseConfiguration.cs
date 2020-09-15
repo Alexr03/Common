@@ -8,22 +8,29 @@ namespace Alexr03.Common.TCAdmin.Configuration
     {
         protected override string ProviderName { get; set; } = "Database";
 
-        public DatabaseConfiguration()
+        public DatabaseConfiguration() : this(typeof(T).Name)
         {
         }
 
         public DatabaseConfiguration(string configName) : base(configName)
         {
             this.ConfigName = ConfigName.Replace(".json", "");
+            if (ConfigName.Length <= 25) return;
+            Console.WriteLine("Config Name is more than 25 characters, this is unsupported for tc_info. Performed Substring.");
+            this.ConfigName = this.ConfigName.Substring(0, 25);
         }
 
         public override T GetConfiguration()
         {
-            //todo generate if non existent.
             var configuration = global::TCAdmin.SDK.Utility.GetDatabaseValue(ConfigName);
-            return !string.IsNullOrEmpty(configuration)
-                ? JsonConvert.DeserializeObject<T>(configuration)
-                : GetTObject();
+            if (!string.IsNullOrEmpty(configuration)) return JsonConvert.DeserializeObject<T>(configuration);
+            
+            var tObject = GetTObject();
+            if (GenerateIfNonExisting)
+            {
+                this.SetConfiguration(tObject);
+            }
+            return tObject;
         }
 
         public override bool SetConfiguration(T config)
