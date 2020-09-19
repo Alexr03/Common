@@ -17,49 +17,35 @@ namespace Alexr03.Common.TCAdmin.Proxy
 
         private static void AddProxy(this CommandProxy commandProxy)
         {
-            if (!CommandProxies.Contains(commandProxy))
-            {
-                CommandProxies.Add(commandProxy);
-            }
+            if (!CommandProxies.Contains(commandProxy)) CommandProxies.Add(commandProxy);
         }
 
         private static void RemoveProxy(this CommandProxy commandProxy)
         {
-            if (CommandProxies.Contains(commandProxy))
-            {
-                CommandProxies.Remove(commandProxy);
-            }
+            if (CommandProxies.Contains(commandProxy)) CommandProxies.Remove(commandProxy);
         }
-        
+
         private static void RemoveProxy(this string commandName)
         {
             if (CommandProxies.Any(x => x.CommandName == commandName))
-            {
                 CommandProxies.RemoveAll(x => x.CommandName == commandName);
-            }
         }
 
         public static void RegisterProxies()
         {
-            foreach (var commandProxy in CommandProxies)
-            {
-                commandProxy.RegisterProxy();
-            }
+            foreach (var commandProxy in CommandProxies) commandProxy.RegisterProxy();
         }
-        
+
         public static void RegisterProxy(this CommandProxy commandProxy)
         {
             AppDomainManager.RegisterProxyCommand(commandProxy);
             AddProxy(commandProxy);
         }
-        
+
         public static void UnRegisterProxies()
         {
-            foreach (var commandProxy in CommandProxies.ToList())
-            {
-                UnRegisterProxy(commandProxy.CommandName);
-            }
-            
+            foreach (var commandProxy in CommandProxies.ToList()) UnRegisterProxy(commandProxy.CommandName);
+
             CommandProxies.Clear();
         }
 
@@ -79,7 +65,6 @@ namespace Alexr03.Common.TCAdmin.Proxy
                 commandResponse = new CommandResponse();
                 if (server.ModuleApiGateway.ExecuteModuleCommand(commandName, arguments, ref commandResponse,
                     waitForResponse))
-                {
                     switch (requestType)
                     {
                         case ProxyRequestType.Xml:
@@ -88,17 +73,13 @@ namespace Alexr03.Common.TCAdmin.Proxy
                             return xmlToObject;
                         }
                         case ProxyRequestType.Json:
-                            if (settings == null)
-                            {
-                                settings = Utilities.NoErrorJsonSettings;
-                            }
+                            if (settings == null) settings = Utilities.NoErrorJsonSettings;
 
                             return JsonConvert.DeserializeObject<T>(commandResponse.Response.ToString(), settings);
                         default:
                             throw new ArgumentOutOfRangeException(nameof(requestType), requestType, null);
                     }
-                }
-                
+
                 throw new Exception("Proxy command execution failed.");
             }
             catch (Exception e)
@@ -109,7 +90,7 @@ namespace Alexr03.Common.TCAdmin.Proxy
             }
         }
     }
-    
+
     public enum ProxyRequestType
     {
         Xml,

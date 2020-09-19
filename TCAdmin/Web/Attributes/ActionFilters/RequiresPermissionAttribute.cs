@@ -30,9 +30,7 @@ namespace Alexr03.Common.TCAdmin.Web.Attributes.ActionFilters
             if (user.UserType != UserType.Admin && _standardPermissionSet &&
                 !SecurityManager.CurrentUserHasPermission(_standardPermission) ||
                 !SecurityManager.CurrentUserHasPermission(_moduleId, _permissionId))
-            {
                 throw new SecurityException("Access is denied");
-            }
         }
     }
 }

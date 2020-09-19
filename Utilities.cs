@@ -6,10 +6,7 @@ namespace Alexr03.Common
     {
         public static readonly JsonSerializerSettings NoErrorJsonSettings = new JsonSerializerSettings
         {
-            Error = (sender, args) =>
-            {
-                args.ErrorContext.Handled = true;
-            }
+            Error = (sender, args) => { args.ErrorContext.Handled = true; }
         };
     }
 }

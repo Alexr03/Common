@@ -9,7 +9,8 @@ namespace Alexr03.Common.Web.HttpResponses
     {
         private readonly HttpStatusCode _httpStatus;
 
-        public JsonNetResult(object data, HttpStatusCode httpStatus = HttpStatusCode.OK, JsonRequestBehavior behavior = JsonRequestBehavior.AllowGet)
+        public JsonNetResult(object data, HttpStatusCode httpStatus = HttpStatusCode.OK,
+            JsonRequestBehavior behavior = JsonRequestBehavior.AllowGet)
         {
             Data = data;
             _httpStatus = httpStatus;
@@ -19,11 +20,11 @@ namespace Alexr03.Common.Web.HttpResponses
         public override void ExecuteResult(ControllerContext context)
         {
             var response = context.HttpContext.Response;
-            response.StatusCode = (int)_httpStatus;
-            response.ContentType = string.IsNullOrEmpty(this.ContentType) ? "application/json" : this.ContentType;
-            if (this.ContentEncoding != null)
-                response.ContentEncoding = this.ContentEncoding;
-            if (this.Data == null)
+            response.StatusCode = (int) _httpStatus;
+            response.ContentType = string.IsNullOrEmpty(ContentType) ? "application/json" : ContentType;
+            if (ContentEncoding != null)
+                response.ContentEncoding = ContentEncoding;
+            if (Data == null)
                 return;
             response.Write(JsonConvert.SerializeObject(Data, Formatting.Indented, Utilities.NoErrorJsonSettings));
         }

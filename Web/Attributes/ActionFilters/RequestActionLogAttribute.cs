@@ -40,17 +40,11 @@ namespace Alexr03.Common.Web.Attributes.ActionFilters
             {
                 var parameterMessage = $"|--- {contextActionParameter.Key} = {contextActionParameter.Value}";
                 LogManager.WriteToLog(controllerName, parameterMessage, true, _logName);
-                if (_debug)
-                {
-                    Console.WriteLine(parameterMessage);
-                }
+                if (_debug) Console.WriteLine(parameterMessage);
             }
 
             LogManager.WriteToLog(controllerName, Separator, true, _logName);
-            if (_debug)
-            {
-                Console.WriteLine(Separator);
-            }
+            if (_debug) Console.WriteLine(Separator);
         }
     }
 }

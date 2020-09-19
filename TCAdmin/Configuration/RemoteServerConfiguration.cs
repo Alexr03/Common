@@ -1,41 +1,53 @@
 ﻿using System;
 using System.IO;
-using System.Reflection;
 using System.Text;
+using Alexr03.Common.Configuration;
 using Newtonsoft.Json;
 using Serilog;
-using TCAdmin.SDK;
+using TCAdmin.GameHosting.SDK.Objects;
 
-namespace Alexr03.Common.Configuration
+namespace Alexr03.Common.TCAdmin.Configuration
 {
-    public class LocalConfiguration<T> : ConfigurationProvider<T>
+    public class RemoteServerConfiguration<T> : ConfigurationProvider<T>
     {
-        private const string ConfigBaseLocation = "./Components/{0}/Config/";
+        private const string ConfigBaseLocation = "{0}/Components/{1}/Config/";
+        private int ServerId = 1;
         private readonly string _configLocation;
         private readonly Type _type = typeof(T);
         private readonly string _assemblyName = typeof(T).Assembly.GetName().Name;
 
-        public LocalConfiguration() : this(typeof(T).Name)
+        public RemoteServerConfiguration() : this(1)
         {
         }
 
-        public LocalConfiguration(string configName) : base(configName)
+        public RemoteServerConfiguration(int serverId) : this(typeof(T).Name)
         {
+            this.ServerId = serverId;
+        }
+
+        public RemoteServerConfiguration(string configName) : base(configName)
+        {
+            var server = new Server(ServerId);
             ConfigName = !ConfigName.EndsWith(".json") ? ConfigName + ".json" : ConfigName;
+            var replace = global::TCAdmin.SDK.Misc.FileSystem.CombinePath(server.OperatingSystem,
+                server.ServerUtilitiesService.GetMonitorDirectory(), "Components", _assemblyName,
+                _type.Namespace?.Replace(_assemblyName, "")).Replace(".", "");
+            Console.WriteLine("Replace - " + replace);
             _configLocation =
-                Path.Combine(
-                    ConfigBaseLocation.Replace("{0}",
-                        Path.Combine(_assemblyName, _type.Namespace?.Replace(_assemblyName, "") ?? "")
-                            .Replace(".", "")), ConfigName);
+                global::TCAdmin.SDK.Misc.FileSystem.CombinePath(server.OperatingSystem,
+                    replace, ConfigName);
         }
 
         public override T GetConfiguration()
         {
+            var server = new Server(ServerId);
+            var fileSystem = server.FileSystemService;
             try
             {
                 var fileInfo = new FileInfo(_configLocation);
-                fileInfo.Directory?.Create();
-                if (!fileInfo.Exists)
+                var readFileExtended = fileSystem.ReadFileExtended(fileInfo.FullName.Replace(fileInfo.Name, ""), fileInfo.Name, 1000000000);
+                fileSystem.CreateDirectory(fileInfo.Directory?.FullName);
+                if (!readFileExtended.Exists)
                 {
                     if (!GenerateIfNonExisting) return GetTObject();
                     Log.Information($"Config '{fileInfo.Name}' does not exist. Auto generating.");
@@ -44,7 +56,7 @@ namespace Alexr03.Common.Configuration
                     return defaultT;
                 }
 
-                var fileContents = File.ReadAllText(fileInfo.FullName);
+                var fileContents = Encoding.Default.GetString(readFileExtended.Contents);
                 var deserializeObject = JsonConvert.DeserializeObject<T>(fileContents);
                 return deserializeObject;
             }
@@ -58,10 +70,12 @@ namespace Alexr03.Common.Configuration
 
         public override bool SetConfiguration(T config)
         {
+            var server = new Server(ServerId);
+            var fileSystem = server.FileSystemService;
             try
             {
                 var serializedObject = JsonConvert.SerializeObject(config, Formatting.Indented);
-                File.WriteAllText(_configLocation, serializedObject, Encoding.Default);
+                fileSystem.CreateTextFile(_configLocation, Encoding.Default.GetBytes(serializedObject));
 
                 Log.Information("Saved new Configuration: " + ConfigName);
                 return true;

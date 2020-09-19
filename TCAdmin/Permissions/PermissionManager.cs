@@ -19,7 +19,7 @@ namespace Alexr03.Common.TCAdmin.Permissions
             var user = Session.GetCurrentUser();
             return UserHasPermission(user, permission);
         }
-        
+
         public bool UserHasPermission(User user, T permission)
         {
             return user.UserType == UserType.Admin ||
@@ -31,7 +31,7 @@ namespace Alexr03.Common.TCAdmin.Permissions
             var user = Session.GetCurrentUser();
             ThrowIfUserLackPermission(user, permission);
         }
-        
+
         public void ThrowIfUserLackPermission(User user, T permission)
         {
             if (!UserHasPermission(user, permission)) throw new SecurityException("Access is denied");

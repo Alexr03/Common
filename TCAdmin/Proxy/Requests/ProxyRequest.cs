@@ -11,7 +11,8 @@ namespace Alexr03.Common.TCAdmin.Proxy.Requests
 
         public abstract object Execute(object arguments);
 
-        public virtual T Request<T>(object arguments, out CommandResponse commandResponse, ProxyRequestType requestType = ProxyRequestType.Xml)
+        public virtual T Request<T>(object arguments, out CommandResponse commandResponse,
+            ProxyRequestType requestType = ProxyRequestType.Xml)
         {
             return ProxyManager.Request<T>(CommandName, arguments, out commandResponse, requestType: requestType);
         }
