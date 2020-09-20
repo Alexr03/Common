@@ -11,7 +11,7 @@ namespace Alexr03.Common.Configuration
 {
     public class LocalConfiguration<T> : ConfigurationProvider<T>
     {
-        private const string ConfigBaseLocation = "./Components/{0}/Config/";
+        private const string ConfigBaseLocation = "./Components/{0}/Configurations/{1}/";
         private readonly string _configLocation;
         private readonly Type _type = typeof(T);
         private readonly string _assemblyName = typeof(T).Assembly.GetName().Name;
@@ -25,9 +25,8 @@ namespace Alexr03.Common.Configuration
             ConfigName = !ConfigName.EndsWith(".json") ? ConfigName + ".json" : ConfigName;
             _configLocation =
                 Path.Combine(
-                    ConfigBaseLocation.Replace("{0}",
-                        Path.Combine(_assemblyName, _type.Namespace?.Replace(_assemblyName, "") ?? "")
-                            .Replace(".", "")), ConfigName);
+                    ConfigBaseLocation.Replace("{0}", _assemblyName)
+                        .Replace("{1}", _type.Namespace?.Replace(_assemblyName, "").Trim('.')), ConfigName);
         }
 
         public override T GetConfiguration()
@@ -51,7 +50,8 @@ namespace Alexr03.Common.Configuration
             }
             catch (Exception e)
             {
-                Log.Error(e, $"Unable to parse {ConfigName} to object {GetType().FullName}. Please ensure that the JSON is correct.");
+                Log.Error(e,
+                    $"Unable to parse {ConfigName} to object {GetType().FullName}. Please ensure that the JSON is correct.");
             }
 
             return GetTObject();

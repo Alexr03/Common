@@ -14,7 +14,6 @@ namespace Alexr03.Common.Logging
 
         public Logger(string application, Type type = null)
         {
-            Console.WriteLine(2);
             Application = application;
             Type = type;
 
