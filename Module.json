@@ -7,5 +7,11 @@
   },
   "Dll": "Alexr03.Common.dll",
   "MasterOnly": false,
-  "Dependencies": []
+  "Dependencies": [
+    "Serilog.dll",
+    "Serilog.Sinks.Console.dll",
+    "Serilog.Sinks.File.dll",
+    "Microsoft.Extensions.Logging.dll",
+    "Microsoft.Extensions.Logging.Abstractions.dll"
+  ]
 }

@@ -18,6 +18,11 @@ namespace Alexr03.Common.Configuration
 
         public abstract T GetConfiguration();
         public abstract bool SetConfiguration(T config);
+        
+        public bool SaveConfiguration(T config)
+        {
+            return SetConfiguration(config);
+        }
 
         protected T GetTObject()
         {
