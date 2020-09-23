@@ -239,17 +239,23 @@
         <Compile Include="Deployment\Actions\DeploymentAction.cs" />
         <Compile Include="Deployment\DeploymentProfile.cs" />
         <Compile Include="Logging\Logger.cs" />
+        <Compile Include="Misc\Enums\EnumHelper.cs" />
+        <Compile Include="Misc\Json\Converters\ListToCsvConverter.cs" />
         <Compile Include="Misc\Strings\VariableReplacements.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="TCAdmin\Configuration\DatabaseConfiguration.cs" />
         <Compile Include="TCAdmin\Configuration\RemoteServerConfiguration.cs" />
+        <Compile Include="TCAdmin\Extensions\XmlFieldExtensions.cs" />
         <Compile Include="TCAdmin\Misc\Strings\VariableReplacement.cs" />
+        <Compile Include="TCAdmin\Objects\DynamicTypeBase.cs" />
         <Compile Include="TCAdmin\Permissions\PermissionManager.cs" />
         <Compile Include="TCAdmin\Proxy\ProxyManager.cs" />
         <Compile Include="TCAdmin\Proxy\Requests\ProxyRequest.cs" />
         <Compile Include="TCAdmin\Web\Attributes\ActionFilters\RequiresPermissionAttribute.cs" />
         <Compile Include="Utilities.cs" />
         <Compile Include="Web\Attributes\ActionFilters\RequestActionLogAttribute.cs" />
+        <Compile Include="Web\Binders\JsonModelBinder.cs" />
+        <Compile Include="Web\Helpers\FormCollectionExtensions.cs" />
         <Compile Include="Web\Helpers\HtmlHelperExtensions.cs" />
         <Compile Include="Web\HttpResponses\JsonNetResult.cs" />
     </ItemGroup>

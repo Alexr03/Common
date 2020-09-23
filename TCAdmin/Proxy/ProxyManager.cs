@@ -84,7 +84,6 @@ namespace Alexr03.Common.TCAdmin.Proxy
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
                 commandResponse = new CommandResponse {SerializedException = e.Message};
                 return Activator.CreateInstance<T>();
             }

@@ -25,12 +25,17 @@ namespace Alexr03.Common.Logging
             if (Type != null)
             {
                 var assemblyName = Type.Assembly.GetName().Name;
-                var logLocation = LogBaseLocation.Replace("{0}",
-                        Path.Combine(assemblyName, Type.Namespace?
-                                .Replace(assemblyName, "") ?? "")
-                            .Replace(".", ""))
-                    .Replace("{1}", Type?.Name)
-                    .Replace("{2}", application);
+                var logLocation =
+                    Path.Combine(
+                        LogBaseLocation.Replace("{0}", assemblyName)
+                            .Replace("{1}", Type.Namespace?.Replace(assemblyName, "").Trim('.'))
+                            .Replace("{2}", application));
+                // var logLocation = LogBaseLocation.Replace("{0}",
+                //         Path.Combine(assemblyName, Type.Namespace?
+                //                 .Replace(assemblyName, "") ?? "")
+                //             .Replace(".", ""))
+                //     .Replace("{1}", Type?.Name)
+                //     .Replace("{2}", application);
                 loggerConfiguration.WriteTo.File(logLocation, rollingInterval: RollingInterval.Day);
             }
             else
@@ -50,7 +55,7 @@ namespace Alexr03.Common.Logging
 
         public static Logger Create<T>()
         {
-            var logger = new Logger(typeof(T).Assembly.GetName().Name, typeof(T));
+            var logger = new Logger(typeof(T).Name, typeof(T));
             return logger;
         }
 

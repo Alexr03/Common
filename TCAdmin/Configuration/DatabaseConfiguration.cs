@@ -1,5 +1,6 @@
 ﻿using System;
 using Alexr03.Common.Configuration;
+using Alexr03.Common.Logging;
 using Newtonsoft.Json;
 
 namespace Alexr03.Common.TCAdmin.Configuration
@@ -12,9 +13,10 @@ namespace Alexr03.Common.TCAdmin.Configuration
 
         public DatabaseConfiguration(string configName) : base(configName)
         {
+            var logger = Logger.Create<DatabaseConfiguration<T>>();
             ConfigName = ConfigName.Replace(".json", "");
             if (ConfigName.Length <= 25) return;
-            Console.WriteLine(
+            logger.LogMessage(
                 "Config Name is more than 25 characters, this is unsupported for tc_info. Performed Substring.");
             ConfigName = ConfigName.Substring(0, 25);
         }

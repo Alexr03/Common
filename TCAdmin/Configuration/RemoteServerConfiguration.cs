@@ -32,7 +32,6 @@ namespace Alexr03.Common.TCAdmin.Configuration
             var replace = global::TCAdmin.SDK.Misc.FileSystem.CombinePath(server.OperatingSystem,
                 server.ServerUtilitiesService.GetMonitorDirectory(), "Components", _assemblyName,
                 _type.Namespace?.Replace(_assemblyName, "")).Replace(".", "");
-            Console.WriteLine("Replace - " + replace);
             _configLocation =
                 global::TCAdmin.SDK.Misc.FileSystem.CombinePath(server.OperatingSystem,
                     replace, ConfigName);
