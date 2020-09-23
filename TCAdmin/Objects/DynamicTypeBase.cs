@@ -8,6 +8,8 @@ namespace Alexr03.Common.TCAdmin.Objects
     public class DynamicTypeBase : ObjectBase
     {
         public const string ConfigurationViewKey = "AR_COMMON:ConfigurationView";
+
+        public string ConfigurationPrefix { get; set; } = "DTB-";
         
         private DynamicTypeBase()
         {
@@ -22,19 +24,25 @@ namespace Alexr03.Common.TCAdmin.Objects
             this.ValidateKeys();
         }
 
-        public Type ConfigurationType => Type.GetType(ConfigurationTypeName);
+        public int Id
+        {
+            get => this.GetIntegerValue("id");
+            set => this.SetValue("id", value);
+        }
 
         protected string TypeName
         {
             get => this.GetStringValue("typeName");
             set => this.SetValue("typeName", value);
         }
+        
+        public Type Type => Type.GetType(TypeName);
 
         public bool HasConfigurationView() => ConfigurationView != null;
 
         public virtual string ConfigurationView
         {
-            get => this.AppData.HasValueAndSet(ConfigurationViewKey) ? this.AppData["ConfigurationViewKey"].ToString() : null;
+            get => this.AppData.HasValueAndSet(ConfigurationViewKey) ? this.AppData[ConfigurationViewKey].ToString() : null;
             set => this.AppData[ConfigurationViewKey] = value;
         }
 
@@ -44,15 +52,26 @@ namespace Alexr03.Common.TCAdmin.Objects
             set => this.SetValue("configurationTypeName", value);
         }
 
-        public T Create<T>(object args)
+        public Type ConfigurationType => Type.GetType(ConfigurationTypeName);
+
+        public object Create(object args = null)
         {
-            return (T)Activator.CreateInstance(ConfigurationType, args);
+            return Create<object>(args);
+        }
+
+        public T Create<T>(object args = null)
+        {
+            if (args == null)
+            {
+                return (T)Activator.CreateInstance(Type);
+            }
+            return (T)Activator.CreateInstance(Type, args);
         }
 
         public virtual T GetConfiguration<T>() where T : new()
         {
             var type = ConfigurationType;
-            var databaseConfiguration = new DatabaseConfiguration<T>("DTB-" + type?.Name).GetConfiguration();
+            var databaseConfiguration = new DatabaseConfiguration<T>(ConfigurationPrefix + type?.Name).GetConfiguration();
 
             return databaseConfiguration;
         }
@@ -60,7 +79,7 @@ namespace Alexr03.Common.TCAdmin.Objects
         public virtual void SetConfiguration<T>(T config) where T : new()
         {
             var type = Type.GetType(ConfigurationTypeName);
-            new DatabaseConfiguration<T>("DTB-" + type?.Name).SetConfiguration(config);
+            new DatabaseConfiguration<T>(ConfigurationPrefix + type?.Name).SetConfiguration(config);
         }
     }
 }
