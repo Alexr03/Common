@@ -48,7 +48,6 @@ namespace Alexr03.Common.TCAdmin.Configuration
                 fileSystem.CreateDirectory(fileInfo.Directory?.FullName);
                 if (!readFileExtended.Exists)
                 {
-                    if (!GenerateIfNonExisting) return GetTObject();
                     Log.Information($"Config '{fileInfo.Name}' does not exist. Auto generating.");
                     var defaultT = GetTObject();
                     SetConfiguration(defaultT);

@@ -1,11 +1,13 @@
 ﻿using System;
+using Alexr03.Common.Logging;
 
 namespace Alexr03.Common.Configuration
 {
     public abstract class ConfigurationProvider<T>
     {
+        private readonly Logger _logger = Logger.Create<ConfigurationProvider<T>>();
+
         protected string ConfigName { get; set; }
-        public bool GenerateIfNonExisting { get; set; } = true;
 
         protected ConfigurationProvider() : this(typeof(T).Name)
         {
@@ -18,15 +20,10 @@ namespace Alexr03.Common.Configuration
 
         public abstract T GetConfiguration();
         public abstract bool SetConfiguration(T config);
-        
-        public bool SaveConfiguration(T config)
-        {
-            return SetConfiguration(config);
-        }
 
         protected T GetTObject()
         {
-            Console.WriteLine("Generating default config");
+            _logger.LogMessage("Generated default config for " + typeof(T).Name);
             if (typeof(T).IsValueType || typeof(T) == typeof(string)) return default;
             return (T) Activator.CreateInstance(typeof(T));
         }

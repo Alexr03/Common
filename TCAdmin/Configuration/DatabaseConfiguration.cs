@@ -1,47 +1,47 @@
 ﻿using System;
 using Alexr03.Common.Configuration;
 using Alexr03.Common.Logging;
-using Newtonsoft.Json;
+using Alexr03.Common.TCAdmin.Objects;
 
 namespace Alexr03.Common.TCAdmin.Configuration
 {
     public class DatabaseConfiguration<T> : ConfigurationProvider<T>
     {
-        public DatabaseConfiguration() : this(typeof(T).Name)
-        {
-        }
+        private readonly Logger _logger = Logger.Create<DatabaseConfiguration<T>>();
+        private readonly string _moduleId;
 
-        public DatabaseConfiguration(string configName) : base(configName)
+        public DatabaseConfiguration(string moduleId, string configName) : base(configName)
         {
-            var logger = Logger.Create<DatabaseConfiguration<T>>();
+            _moduleId = moduleId;
             ConfigName = ConfigName.Replace(".json", "");
-            if (ConfigName.Length <= 25) return;
-            logger.LogMessage(
-                "Config Name is more than 25 characters, this is unsupported for tc_info. Performed Substring.");
-            ConfigName = ConfigName.Substring(0, 25);
         }
 
         public override T GetConfiguration()
         {
-            var configuration = global::TCAdmin.SDK.Utility.GetDatabaseValue(ConfigName);
-            if (!string.IsNullOrEmpty(configuration)) return JsonConvert.DeserializeObject<T>(configuration);
-
-            var tObject = GetTObject();
-            if (GenerateIfNonExisting) SetConfiguration(tObject);
-            return tObject;
+            var moduleConfiguration = ModuleConfiguration.GetModuleConfiguration(_moduleId, ConfigName, typeof(T));
+            try
+            {
+                return moduleConfiguration.GetConfiguration<T>();
+            }
+            catch
+            {
+                return GetTObject();
+            }
         }
 
         public override bool SetConfiguration(T config)
         {
             try
             {
-                var json = JsonConvert.SerializeObject(config);
-                global::TCAdmin.SDK.Utility.SetDatabaseValue(ConfigName, json);
+                var moduleConfiguration = ModuleConfiguration.GetModuleConfiguration(_moduleId, ConfigName, typeof(T));
+                moduleConfiguration.SetConfiguration(config);
+                moduleConfiguration.Save();
+
                 return true;
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                _logger.LogException(e);
                 return false;
             }
         }

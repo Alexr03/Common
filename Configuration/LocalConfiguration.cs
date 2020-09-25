@@ -2,6 +2,7 @@
 using System.IO;
 using System.Reflection;
 using System.Text;
+using Alexr03.Common.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
@@ -11,6 +12,7 @@ namespace Alexr03.Common.Configuration
 {
     public class LocalConfiguration<T> : ConfigurationProvider<T>
     {
+        private readonly Logger _logger = Logger.Create<LocalConfiguration<T>>();
         private const string ConfigBaseLocation = "./Components/{0}/Configurations/{1}/";
         private readonly string _configLocation;
         private readonly Type _type = typeof(T);
@@ -37,7 +39,6 @@ namespace Alexr03.Common.Configuration
                 fileInfo.Directory?.Create();
                 if (!fileInfo.Exists)
                 {
-                    if (!GenerateIfNonExisting) return GetTObject();
                     Log.Information($"Config '{fileInfo.Name}' does not exist. Auto generating.");
                     var defaultT = GetTObject();
                     SetConfiguration(defaultT);
@@ -64,12 +65,12 @@ namespace Alexr03.Common.Configuration
                 var serializedObject = JsonConvert.SerializeObject(config, Formatting.Indented);
                 File.WriteAllText(_configLocation, serializedObject, Encoding.Default);
 
-                Log.Information("Saved new Configuration: " + ConfigName);
+                _logger.LogMessage("Saved new Configuration: " + ConfigName);
                 return true;
             }
             catch (Exception e)
             {
-                Log.Error(e, $"Unable to save configuration because {e.Message}");
+                _logger.LogException(e);
                 return false;
             }
         }

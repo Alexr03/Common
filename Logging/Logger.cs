@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Serilog;
 using Serilog.Events;
+using TCAdmin.GameHosting.SDK.Objects;
 
 namespace Alexr03.Common.Logging
 {
@@ -10,7 +13,8 @@ namespace Alexr03.Common.Logging
         private const string LogBaseLocation = "./Components/{0}/Logs/{1}/{2}/{2}.log";
         public string Application { get; }
         public Serilog.Core.Logger InternalLogger { get; }
-        internal Type Type { get; set; }
+        private string LogLocation { get; }
+        private Type Type { get; set; }
 
         public Logger(string application, Type type = null)
         {
@@ -25,23 +29,17 @@ namespace Alexr03.Common.Logging
             if (Type != null)
             {
                 var assemblyName = Type.Assembly.GetName().Name;
-                var logLocation =
+                LogLocation =
                     Path.Combine(
                         LogBaseLocation.Replace("{0}", assemblyName)
                             .Replace("{1}", Type.Namespace?.Replace(assemblyName, "").Trim('.'))
                             .Replace("{2}", application));
-                // var logLocation = LogBaseLocation.Replace("{0}",
-                //         Path.Combine(assemblyName, Type.Namespace?
-                //                 .Replace(assemblyName, "") ?? "")
-                //             .Replace(".", ""))
-                //     .Replace("{1}", Type?.Name)
-                //     .Replace("{2}", application);
-                loggerConfiguration.WriteTo.File(logLocation, rollingInterval: RollingInterval.Day);
+                loggerConfiguration.WriteTo.File(LogLocation, rollingInterval: RollingInterval.Day, shared: true);
             }
             else
             {
-                loggerConfiguration.WriteTo.File($"./Components/Misc/Logs/{application}/{application}.log",
-                    rollingInterval: RollingInterval.Day);
+                LogLocation = $"./Components/Misc/Logs/{application}/{application}.log";
+                loggerConfiguration.WriteTo.File(LogLocation, rollingInterval: RollingInterval.Day, shared: true);
             }
 
             InternalLogger = loggerConfiguration.CreateLogger();
@@ -67,6 +65,17 @@ namespace Alexr03.Common.Logging
         public void LogDebugMessage(string message)
         {
             LogMessage(LogEventLevel.Debug, message);
+        }
+
+        public List<FileInfo> GetLogFiles()
+        {
+            return new FileInfo(LogLocation).Directory?.GetFiles().ToList();
+        }
+
+        public FileInfo GetCurrentLogFile()
+        {
+            var fileInfos = GetLogFiles().OrderByDescending(x => x.LastWriteTimeUtc).ToList();
+            return fileInfos?[0];
         }
 
         public void LogMessage(LogEventLevel logLevel, string message)
