@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Linq;
+using TCAdmin.Interfaces.Database;
 using TCAdmin.SDK.Objects;
 
 namespace Alexr03.Common.TCAdmin.Objects
 {
     public class DynamicTypeBase : ObjectBase
     {
-        private DynamicTypeBase()
+        public DynamicTypeBase()
         {
             this.UseApplicationDataField = true;
         }
@@ -59,18 +61,18 @@ namespace Alexr03.Common.TCAdmin.Objects
 
             return (T) Activator.CreateInstance(Type, args);
         }
+        
+        public DynamicTypeBase FindByType(Type type)
+        {
+            var typeName = $"{type}, {type.Assembly.GetName().Name}";
+            var whereList = new WhereList
+            {
+                {"typeName", ColumnOperator.Like, typeName}
+            };
+            var dnsProviderTypes = new DynamicTypeBase(TableName, ModuleId).GetObjectList(whereList).Cast<DynamicTypeBase>().ToList();
+            return dnsProviderTypes.Any() ? dnsProviderTypes[0] : null;
+        }
 
         public ModuleConfiguration Configuration => ModuleConfiguration.GetModuleConfiguration(this.ModuleId, ConfigurationName);
-
-        public virtual T GetConfiguration<T>() where T : new()
-        {
-            return ModuleConfiguration.GetModuleConfiguration(ModuleId, Configuration.Type.Name, typeof(T)).GetConfiguration<T>();
-        }
-
-        public virtual void SetConfiguration<T>(T config) where T : new()
-        {
-            var moduleConfiguration = ModuleConfiguration.GetModuleConfiguration(ModuleId, Configuration.Type.Name);
-            moduleConfiguration.SetConfiguration(config);
-        }
     }
 }

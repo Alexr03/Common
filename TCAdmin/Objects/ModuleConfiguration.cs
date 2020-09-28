@@ -15,8 +15,9 @@ namespace Alexr03.Common.TCAdmin.Objects
         public ModuleConfiguration()
         {
             this.TableName = "ar_common_configurations";
-            this.KeyColumns = new[] {"id"};
+            this.KeyColumns = new[] {"id", "moduleId"};
             this.SetValue("id", -1);
+            this.SetValue("moduleId", "");
             this.SetValue("contents", "{}");
             this.UseApplicationDataField = true;
         }

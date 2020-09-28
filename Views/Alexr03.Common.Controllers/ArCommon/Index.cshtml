@@ -19,6 +19,7 @@
         {
             items.Add().Text(string.Format("{0} Configuration", configType.Type.Name)).LoadContentFrom("Configure", "ArCommon", new {configName = configType.ConfigName});
         }
+        items.Add().Text("SQL Executor").LoadContentFrom("Sql", "ArCommon");
     })
     .SelectedIndex(0)
     .TabPosition(TabStripTabPosition.Left)

@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Alexr03.Common.Configuration;
+using Alexr03.Common.TCAdmin.Objects;
 using Serilog;
 using Serilog.Events;
-using TCAdmin.GameHosting.SDK.Objects;
 
 namespace Alexr03.Common.Logging
 {
@@ -24,8 +25,18 @@ namespace Alexr03.Common.Logging
             var consoleOutputTemplate =
                 $"[{application}" + " {Timestamp:HH:mm:ss.ff} {Level:u3}] {Message:lj}{NewLine}{Exception}";
             var loggerConfiguration = new LoggerConfiguration()
-                .MinimumLevel.Debug()
                 .WriteTo.Console(outputTemplate: consoleOutputTemplate);
+            if (Utilities.IsRunningOnTcAdmin)
+            {
+                var arCommonSettings = ModuleConfiguration.GetModuleConfiguration(Globals.ModuleId, "ArCommonSettings").GetConfiguration<ArCommonSettings>();
+                loggerConfiguration.MinimumLevel.Is(arCommonSettings.MinimumLogLevel);
+            }
+            else
+            {
+                var arCommonSettings = new LocalConfiguration<ArCommonSettings>().GetConfiguration();
+                loggerConfiguration.MinimumLevel.Is(arCommonSettings.MinimumLogLevel);
+            }
+            
             if (Type != null)
             {
                 var assemblyName = Type.Assembly.GetName().Name;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Alexr03.Common.TCAdmin.Proxy.Requests;
 using Newtonsoft.Json;
 using TCAdmin.SDK.Misc;
@@ -53,6 +54,20 @@ namespace Alexr03.Common.TCAdmin.Proxy
         {
             AppDomainManager.UnregisterProxyCommand(commandName);
             RemoveProxy(commandName);
+        }
+
+        public static void RegisterFromAssembly(Assembly assembly)
+        {
+            var proxyRequests = assembly.GetTypes()
+                .Where(t => t.IsSubclassOf(typeof(ProxyRequest)) && !t.IsAbstract)
+                .Select(t => (ProxyRequest) Activator.CreateInstance(t)).ToList();
+            foreach (var request in proxyRequests)
+            {
+                new CommandProxy(request.Execute)
+                {
+                    CommandName = request.CommandName, KeepAlive = true, NeverDie = true
+                }.RegisterProxy();
+            }
         }
 
         public static T Request<T>(string commandName,

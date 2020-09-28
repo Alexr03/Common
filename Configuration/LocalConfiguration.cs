@@ -39,7 +39,7 @@ namespace Alexr03.Common.Configuration
                 fileInfo.Directory?.Create();
                 if (!fileInfo.Exists)
                 {
-                    Log.Information($"Config '{fileInfo.Name}' does not exist. Auto generating.");
+                    _logger.LogMessage($"Config '{fileInfo.Name}' does not exist. Auto generating.");
                     var defaultT = GetTObject();
                     SetConfiguration(defaultT);
                     return defaultT;
@@ -51,8 +51,7 @@ namespace Alexr03.Common.Configuration
             }
             catch (Exception e)
             {
-                Log.Error(e,
-                    $"Unable to parse {ConfigName} to object {GetType().FullName}. Please ensure that the JSON is correct.");
+                _logger.LogException(e);
             }
 
             return GetTObject();
