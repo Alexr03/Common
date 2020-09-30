@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using Alexr03.Common.TCAdmin.Objects;
+using Alexr03.Common.Web.Attributes.ActionFilters;
 using Alexr03.Common.Web.Helpers;
 using Newtonsoft.Json.Linq;
 using TCAdmin.SDK.Web.MVC.Controllers;
@@ -10,6 +11,7 @@ using TCAdmin.Web.MVC;
 namespace Alexr03.Common.Controllers
 {
     [ExceptionHandler]
+    [RoutePrefix("ArCommon")]
     public class ArCommonController : BaseController
     {
         public ActionResult Index()
@@ -39,6 +41,7 @@ namespace Alexr03.Common.Controllers
         }
 
         [ParentAction("Index")]
+        [DisallowDirect]
         public ActionResult Sql()
         {
             return View();
@@ -59,7 +62,6 @@ namespace Alexr03.Common.Controllers
                     table = convertDataTableToString
                 });
             }
-
             var executeNonQuery = databaseProvider.ExecuteNonQuery(sqlScript);
             databaseProvider.Disconnect();
             return Json(new
@@ -68,6 +70,7 @@ namespace Alexr03.Common.Controllers
             });
         }
 
+        [Route("Sql/Save")]
         public ActionResult SaveSqlScript(string name, string contents)
         {
             var sqlScript = new SqlScript
@@ -84,6 +87,7 @@ namespace Alexr03.Common.Controllers
             });
         }
 
+        [Route("Sql/Load")]
         public ActionResult LoadSqlScript(int id)
         {
             var sqlScript = new SqlScript(id);
@@ -96,6 +100,7 @@ namespace Alexr03.Common.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
 
+        [Route("Sql/Delete")]
         public ActionResult DeleteSqlScript(int id)
         {
             var sqlScript = new SqlScript(id);
@@ -107,6 +112,7 @@ namespace Alexr03.Common.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
 
+        [Route("Sql/GetAllScripts")]
         public ActionResult GetSqlScripts()
         {
             var sqlScripts = SqlScript.GetSqlScripts();

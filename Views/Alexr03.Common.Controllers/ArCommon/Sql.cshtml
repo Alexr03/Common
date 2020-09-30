@@ -34,18 +34,13 @@
         <form id="sqlForm">
             <h4>SQL Script</h4>
             @Html.TextArea("sqlScript", new {placeholder = "Enter SQL Script here", rows = 10, width = "100%", @class = "k-input"})
-            @* <div class="k-form-footer"> *@
-            @*     <button class="k-button k-primary">Execute</button> *@
-            @* </div> *@
         </form>
         <br/>
     </div>
 }
 
-        <div id="resultsHeader" style="display: none">
-            <h4>SQL Script Result</h4>
-        </div>
-        <div id="results"></div>
+<h4 id="resultsHeader" style="display: none">SQL Script Result</h4>
+<div id="results"></div>
 
 <style>
     .k-form-footer {
@@ -65,7 +60,6 @@
 
 <script>
     let scriptBox;
-    let called = false;
 
     $(document).ready(function() {
         scriptBox = CodeMirror.fromTextArea($("#sqlScript")[0], {
@@ -98,7 +92,7 @@
             nameOfScript = data;
             $.ajax({
                 type: "POST",
-                url: "/ArCommon/SaveSqlScript",
+                url: "/ArCommon/Sql/Save",
                 data: JSON.stringify({ name: nameOfScript, contents: scriptBox.getValue() }),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
@@ -116,7 +110,7 @@
         if(value == null || value === ''){return;}
         $.ajax({
             type: "GET",
-            url: "/ArCommon/LoadSqlScript",
+            url: "/ArCommon/Sql/Load",
             data: {id: value },
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -135,7 +129,7 @@
         kendo.confirm('Are you sure you want to delete this script?').done(function(){
             $.ajax({
                 type: "DELETE",
-                url: "/ArCommon/DeleteSqlScript",
+                url: "/ArCommon/Sql/Delete",
                 data: JSON.stringify({ id: value }),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
