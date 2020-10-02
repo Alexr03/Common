@@ -10,9 +10,14 @@ namespace Alexr03.Common.Web.Helpers
     // https://www.mattlunn.me.uk/blog/2014/08/how-to-dynamically-via-ajax-add-new-items-to-a-bound-list-model-in-asp-mvc-net/
     public static class HtmlHelperExtensions
     {
-        public static string PrefixType(this string s, Type type, string separator = ".")
+        public static string Prefix(this string s, Type type, string separator = ".")
         {
-            return $"{type.Name}{separator}{s}";
+            return Prefix(s, type.Name, separator);
+        }
+        
+        public static string Prefix(this string s, string prefix, string separator = ".")
+        {
+            return $"{prefix}{separator}{s}";
         }
         
         /// <summary>

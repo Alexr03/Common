@@ -12,10 +12,15 @@ namespace Alexr03.Common.Web.Helpers
 
         public static object Parse(this FormCollection formCollection, ControllerContext controllerContext, Type type, bool useEmptyPrefix = false)
         {
+            return Parse(formCollection, controllerContext, type, type.Name, useEmptyPrefix);
+        }
+        
+        public static object Parse(this FormCollection formCollection, ControllerContext controllerContext, Type type, string prefix, bool useEmptyPrefix = false)
+        {
             var metadataForType = ModelMetadataProviders.Current.GetMetadataForType(null, type);
             var modelBindingContext = new ModelBindingContext
             {
-                ModelName = type.Name,
+                ModelName = prefix,
                 ModelMetadata = metadataForType,
                 ValueProvider = formCollection.ToValueProvider(),
                 FallbackToEmptyPrefix = useEmptyPrefix

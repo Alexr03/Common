@@ -7,17 +7,16 @@ namespace Alexr03.Common.TCAdmin.Objects
 {
     public class DynamicTypeBase : ObjectBase
     {
-        public DynamicTypeBase()
+        private DynamicTypeBase()
         {
             this.UseApplicationDataField = true;
         }
 
-        public DynamicTypeBase(string tableName, string moduleId) : this()
+        public DynamicTypeBase(string tableName) : this()
         {
             this.TableName = tableName;
-            this.KeyColumns = new[] {"id", "moduleId"};
+            this.KeyColumns = new[] {"id"};
             this.SetValue("id", -1);
-            this.SetValue("moduleId", moduleId);
             this.ValidateKeys();
         }
 
@@ -25,12 +24,6 @@ namespace Alexr03.Common.TCAdmin.Objects
         {
             get => this.GetIntegerValue("id");
             set => this.SetValue("id", value);
-        }
-
-        public string ModuleId
-        {
-            get => this.GetStringValue("moduleId");
-            set => this.SetValue("moduleId", value);
         }
 
         protected string TypeName
@@ -41,11 +34,34 @@ namespace Alexr03.Common.TCAdmin.Objects
 
         public Type Type => Type.GetType(TypeName);
 
-        protected string ConfigurationName
+        public bool HasConfiguration
         {
-            get => this.GetStringValue("configurationName");
-            set => this.SetValue("configurationName", value);
+            get
+            {
+                try
+                {
+                    return ConfigurationId != 0 && Configuration != null;
+                }
+                catch (Exception exception)
+                {
+                    return false;
+                }
+            }
         }
+
+        public string ConfigurationModuleId
+        {
+            get => this.GetStringValue("configurationModuleId");
+            set => this.SetValue("configurationModuleId", value);
+        }
+
+        protected int ConfigurationId
+        {
+            get => this.GetIntegerValue("configurationId");
+            set => this.SetValue("configurationId", value);
+        }
+        
+        public ModuleConfiguration Configuration => new ModuleConfiguration(ConfigurationId, ConfigurationModuleId);
 
         public object Create(object args = null)
         {
@@ -62,17 +78,15 @@ namespace Alexr03.Common.TCAdmin.Objects
             return (T) Activator.CreateInstance(Type, args);
         }
         
-        public DynamicTypeBase FindByType(Type type)
+        public static DynamicTypeBase FindByType(string tableName, Type type)
         {
             var typeName = $"{type}, {type.Assembly.GetName().Name}";
             var whereList = new WhereList
             {
                 {"typeName", ColumnOperator.Like, typeName}
             };
-            var dnsProviderTypes = new DynamicTypeBase(TableName, ModuleId).GetObjectList(whereList).Cast<DynamicTypeBase>().ToList();
+            var dnsProviderTypes = new DynamicTypeBase(tableName).GetObjectList(whereList).Cast<DynamicTypeBase>().ToList();
             return dnsProviderTypes.Any() ? dnsProviderTypes[0] : null;
         }
-
-        public ModuleConfiguration Configuration => ModuleConfiguration.GetModuleConfiguration(this.ModuleId, ConfigurationName);
     }
 }

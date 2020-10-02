@@ -22,6 +22,17 @@ namespace Alexr03.Common.TCAdmin.Objects
             this.UseApplicationDataField = true;
         }
 
+        public ModuleConfiguration(int id, string moduleId) : this()
+        {
+            this.SetValue("id", id);
+            this.SetValue("moduleId", moduleId);
+            this.ValidateKeys();
+            if (!this.Find())
+            {
+                throw new KeyNotFoundException($"Could not find Module Configuration with Id: {id} | Module Id: {moduleId}");
+            }
+        }
+
         public int Id
         {
             get => this.GetIntegerValue("id");
@@ -64,13 +75,9 @@ namespace Alexr03.Common.TCAdmin.Objects
             set => this.AppData[ConfigurationViewKey] = value;
         }
 
-        public T GetConfiguration<T>()
+        public T Parse<T>()
         {
-            // if (string.IsNullOrEmpty(Contents) || Contents == "{}")
-            // {
-            //     throw new Exception("Contents is empty. Cannot parse a empty/null value");
-            // }
-            return JsonConvert.DeserializeObject<T>(Contents);
+            return JsonConvert.DeserializeObject<T>(Contents ?? "{}");
         }
 
         public void SetConfiguration(object config)

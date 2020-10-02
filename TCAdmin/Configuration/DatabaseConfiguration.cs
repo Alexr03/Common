@@ -21,7 +21,7 @@ namespace Alexr03.Common.TCAdmin.Configuration
             var moduleConfiguration = ModuleConfiguration.GetModuleConfiguration(_moduleId, ConfigName, typeof(T));
             try
             {
-                return moduleConfiguration.GetConfiguration<T>();
+                return moduleConfiguration.Parse<T>();
             }
             catch
             {

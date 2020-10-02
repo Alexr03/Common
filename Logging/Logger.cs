@@ -28,7 +28,7 @@ namespace Alexr03.Common.Logging
                 .WriteTo.Console(outputTemplate: consoleOutputTemplate);
             if (Utilities.IsRunningOnTcAdmin)
             {
-                var arCommonSettings = ModuleConfiguration.GetModuleConfiguration(Globals.ModuleId, "ArCommonSettings").GetConfiguration<ArCommonSettings>();
+                var arCommonSettings = ModuleConfiguration.GetModuleConfiguration(Globals.ModuleId, "ArCommonSettings").Parse<ArCommonSettings>();
                 loggerConfiguration.MinimumLevel.Is(arCommonSettings.MinimumLogLevel);
             }
             else

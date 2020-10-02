@@ -23,7 +23,7 @@ namespace Alexr03.Common.Controllers
         public ActionResult Configure(string configName)
         {
             var config = ModuleConfiguration.GetModuleConfiguration(Globals.ModuleId, configName);
-            var jObject = config.GetConfiguration<JObject>();
+            var jObject = config.Parse<JObject>();
             ViewData.TemplateInfo = new TemplateInfo
             {
                 HtmlFieldPrefix = config.Type.Name,
