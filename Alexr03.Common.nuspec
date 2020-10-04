@@ -27,6 +27,6 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="..\bin\debug\Alexr03.Common.dll" target="lib\net472\Alexr03.Common.dll" />
+    <file src="bin\debug\Alexr03.Common.dll" target="lib\net472\Alexr03.Common.dll" />
   </files>
 </package>
