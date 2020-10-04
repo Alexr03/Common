@@ -129,6 +129,7 @@
         </Reference>
         <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
           <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
+          <Private>True</Private>
         </Reference>
         <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
           <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
@@ -269,6 +270,9 @@
         <Compile Include="Misc\Versions\VersionExtensions.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="TCAdmin\Configuration\DatabaseConfiguration.cs" />
+        <Compile Include="TCAdmin\Extensions\ControllerExtensions.cs" />
+        <Compile Include="TCAdmin\Extensions\DynamicTypeBaseExtensions.cs" />
+        <Compile Include="TCAdmin\Extensions\FormCollectionExtensions.cs" />
         <Compile Include="TCAdmin\Extensions\XmlFieldExtensions.cs" />
         <Compile Include="TCAdmin\Misc\Strings\VariableReplacement.cs" />
         <Compile Include="TCAdmin\Objects\DynamicTypeBase.cs" />
@@ -279,10 +283,13 @@
         <Compile Include="TCAdmin\Proxy\Requests\ProxyRequest.cs" />
         <Compile Include="TCAdmin\Services\ArCommonService.cs" />
         <Compile Include="TCAdmin\Web\Attributes\ActionFilters\RequiresPermissionAttribute.cs" />
+        <Compile Include="TCAdmin\Web\Binders\DynamicTypeBaseBinder.cs" />
+        <Compile Include="TCAdmin\Web\Binders\DynamicTypeBaseBinderAttribute.cs" />
         <Compile Include="Utilities.cs" />
         <Compile Include="Web\Attributes\ActionFilters\DisallowDirect.cs" />
         <Compile Include="Web\Attributes\ActionFilters\RequestActionLogAttribute.cs" />
         <Compile Include="Web\Binders\JsonModelBinder.cs" />
+        <Compile Include="Web\Helpers\ControllerHelper.cs" />
         <Compile Include="Web\Helpers\DataSourceRequestExtensions.cs" />
         <Compile Include="Web\Helpers\FormCollectionExtensions.cs" />
         <Compile Include="Web\Helpers\HtmlHelperExtensions.cs" />

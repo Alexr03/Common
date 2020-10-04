@@ -55,6 +55,12 @@ namespace Alexr03.Common.Logging
 
             InternalLogger = loggerConfiguration.CreateLogger();
         }
+        
+        public static Logger Create(Type type)
+        {
+            var logger = new Logger(type.Name, type);
+            return logger;
+        }
 
         public static Logger Create<T>(string application)
         {

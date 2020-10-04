@@ -80,12 +80,12 @@ namespace Alexr03.Common.TCAdmin.Objects
             return JsonConvert.DeserializeObject<T>(Contents ?? "{}");
         }
 
-        public void SetConfiguration(object config)
+        public bool SetConfiguration(object config)
         {
             var serializeObject = JsonConvert.SerializeObject(config);
             TypeName = $"{config.GetType()}, {config.GetType().Assembly.GetName().Name}";
             Contents = serializeObject;
-            this.Save();
+            return this.Save();
         }
 
         public static ModuleConfiguration GetModuleConfiguration(string moduleId, string configName, Type type = null)

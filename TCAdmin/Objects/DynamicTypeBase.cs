@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Linq;
+using System.Web.Mvc;
+using Alexr03.Common.TCAdmin.Web.Binders;
 using TCAdmin.Interfaces.Database;
 using TCAdmin.SDK.Objects;
 
 namespace Alexr03.Common.TCAdmin.Objects
 {
+    [ModelBinder(typeof(DynamicTypeBaseBinder))]
     public class DynamicTypeBase : ObjectBase
     {
-        private DynamicTypeBase()
+        // ReSharper disable once MemberCanBePrivate.Global
+        // Needs to be public as it uses System.Activator to create the object.
+        public DynamicTypeBase()
         {
             this.UseApplicationDataField = true;
         }
@@ -77,7 +82,14 @@ namespace Alexr03.Common.TCAdmin.Objects
 
             return (T) Activator.CreateInstance(Type, args);
         }
-        
+
+        // ReSharper disable once UnusedMember.Global
+        // Used loosely typed.
+        public virtual ObjectBase FromIdAndModuleId(int id, string moduleId)
+        {
+            throw new NotImplementedException();
+        }
+
         public static DynamicTypeBase FindByType(string tableName, Type type)
         {
             var typeName = $"{type}, {type.Assembly.GetName().Name}";
@@ -85,8 +97,8 @@ namespace Alexr03.Common.TCAdmin.Objects
             {
                 {"typeName", ColumnOperator.Like, typeName}
             };
-            var dnsProviderTypes = new DynamicTypeBase(tableName).GetObjectList(whereList).Cast<DynamicTypeBase>().ToList();
-            return dnsProviderTypes.Any() ? dnsProviderTypes[0] : null;
+            var dynamicTypes = new DynamicTypeBase(tableName).GetObjectList(whereList).Cast<DynamicTypeBase>().ToList();
+            return dynamicTypes.Any() ? dynamicTypes[0] : null;
         }
     }
 }
