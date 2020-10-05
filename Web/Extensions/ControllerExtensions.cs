@@ -2,7 +2,7 @@
 using System.Web.Mvc;
 using Alexr03.Common.Web.HttpResponses;
 
-namespace Alexr03.Common.Web.Helpers
+namespace Alexr03.Common.Web.Extensions
 {
     public static class ControllerExtensions
     {

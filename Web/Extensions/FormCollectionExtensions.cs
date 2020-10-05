@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
 
-namespace Alexr03.Common.Web.Helpers
+namespace Alexr03.Common.Web.Extensions
 {
     public static class FormCollectionExtensions
     {

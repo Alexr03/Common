@@ -3,7 +3,7 @@ using System.Linq;
 using Kendo.Mvc;
 using Kendo.Mvc.UI;
 
-namespace Alexr03.Common.Web.Helpers
+namespace Alexr03.Common.Web.Extensions
 {
     public static class DataSourceRequestExtensions
     {

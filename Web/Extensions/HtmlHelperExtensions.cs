@@ -5,7 +5,7 @@ using System.Text;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 
-namespace Alexr03.Common.Web.Helpers
+namespace Alexr03.Common.Web.Extensions
 {
     // https://www.mattlunn.me.uk/blog/2014/08/how-to-dynamically-via-ajax-add-new-items-to-a-bound-list-model-in-asp-mvc-net/
     public static class HtmlHelperExtensions
