@@ -13,6 +13,11 @@ create table ar_common_configurations
     primary key (id, moduleId)
 );
 
+INSERT INTO ar_common_configurations (id, moduleId, name, typeName, contents, app_data) VALUES (1, '4911e2b1-49a5-4bcd-a768-a59419cf2fc7', 'ArCommonSettings', 'Alexr03.Common.ArCommonSettings, Alexr03.Common', '{"MinimumLogLevel":1}', '<?xml version="1.0" encoding="utf-16" standalone="yes"?>
+<values>
+  <add key="AR_COMMON:ConfigurationView" value="ArCommonConfiguration" type="System.String,mscorlib" />
+</values>');
+
 create table ar_common_sql_scripts
 (
     id       int         not null,
