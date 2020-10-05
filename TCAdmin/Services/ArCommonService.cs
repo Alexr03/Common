@@ -10,7 +10,7 @@ namespace Alexr03.Common.TCAdmin.Services
     {
         public ArCommonService()
         {
-            ConfigurationKey = "TCAdminNexus";
+            ConfigurationKey = "Alexr03.Common";
         }
 
         public void Initialize(params object[] args)
