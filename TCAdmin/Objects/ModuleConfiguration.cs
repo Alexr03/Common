@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Alexr03.Common.TCAdmin.Extensions;
 using Newtonsoft.Json;
+using TCAdmin.GameHosting.SDK.Automation;
 using TCAdmin.Interfaces.Database;
 using TCAdmin.SDK.Objects;
 
@@ -11,7 +12,7 @@ namespace Alexr03.Common.TCAdmin.Objects
     public class ModuleConfiguration : ObjectBase
     {
         public const string ConfigurationViewKey = "AR_COMMON:ConfigurationView";
-        
+
         public ModuleConfiguration()
         {
             this.TableName = "ar_common_configurations";
@@ -29,7 +30,8 @@ namespace Alexr03.Common.TCAdmin.Objects
             this.ValidateKeys();
             if (!this.Find())
             {
-                throw new KeyNotFoundException($"Could not find Module Configuration with Id: {id} | Module Id: {moduleId}");
+                throw new KeyNotFoundException(
+                    $"Could not find Module Configuration with Id: {id} | Module Id: {moduleId}");
             }
         }
 
@@ -38,13 +40,13 @@ namespace Alexr03.Common.TCAdmin.Objects
             get => this.GetIntegerValue("id");
             private set => this.SetValue("id", value);
         }
-        
+
         public string ConfigName
         {
-            get => this.GetStringValue("configName");
-            private set => this.SetValue("configName", value);
+            get => this.GetStringValue("name");
+            private set => this.SetValue("name", value);
         }
-        
+
         public string ModuleId
         {
             get => this.GetStringValue("moduleId");
@@ -59,12 +61,12 @@ namespace Alexr03.Common.TCAdmin.Objects
 
         private string TypeName
         {
-            get => this.GetStringValue("configTypeName");
-            set => this.SetValue("configTypeName", value);
+            get => this.GetStringValue("typeName");
+            set => this.SetValue("typeName", value);
         }
 
         public Type Type => Type.GetType(TypeName);
-        
+
         public bool HasView() => View != null;
 
         public virtual string View
@@ -96,26 +98,29 @@ namespace Alexr03.Common.TCAdmin.Objects
                 {nameof(configName), configName},
             };
 
-            var moduleConfigurations = new ModuleConfiguration().GetObjectList(whereList).Cast<ModuleConfiguration>().ToList();
+            var moduleConfigurations =
+                new ModuleConfiguration().GetObjectList(whereList).Cast<ModuleConfiguration>().ToList();
             if (moduleConfigurations.Any())
             {
                 var moduleConfiguration = moduleConfigurations[0];
-                if (string.IsNullOrEmpty(moduleConfiguration.TypeName) && type != null)
-                {
-                    moduleConfiguration.SetConfiguration(Activator.CreateInstance(type));
-                    moduleConfiguration.Save();
-                }
+                if (!string.IsNullOrEmpty(moduleConfiguration.TypeName) || type == null) return moduleConfiguration;
+
+                moduleConfiguration.SetConfiguration(Activator.CreateInstance(type));
+                moduleConfiguration.Save();
 
                 return moduleConfiguration;
             }
 
-            if (type == null) return null;
-            
+            if (type == null)
+            {
+                throw new Exception(
+                    $"Cannot find configuration with {nameof(moduleId)}={moduleId} | {nameof(configName)} = {configName} and cannot auto generate without Type specified.");
+            }
+
             var newConfig = new ModuleConfiguration
             {
                 ModuleId = moduleId,
                 ConfigName = configName,
-                TypeName = $"{type}, {type.Assembly.GetName().Name}"
             };
             newConfig.GenerateKey();
             newConfig.Save();
@@ -123,7 +128,7 @@ namespace Alexr03.Common.TCAdmin.Objects
 
             return newConfig;
         }
-        
+
         public static List<ModuleConfiguration> GetModuleConfigurations(string moduleId)
         {
             var whereList = new WhereList
@@ -131,7 +136,8 @@ namespace Alexr03.Common.TCAdmin.Objects
                 {nameof(moduleId), moduleId},
             };
 
-            var moduleConfigurations = new ModuleConfiguration().GetObjectList(whereList).Cast<ModuleConfiguration>().ToList();
+            var moduleConfigurations =
+                new ModuleConfiguration().GetObjectList(whereList).Cast<ModuleConfiguration>().ToList();
             return moduleConfigurations;
         }
     }

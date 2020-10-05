@@ -47,7 +47,7 @@ namespace Alexr03.Common.TCAdmin.Objects
                 {
                     return ConfigurationId != 0 && Configuration != null;
                 }
-                catch (Exception exception)
+                catch
                 {
                     return false;
                 }

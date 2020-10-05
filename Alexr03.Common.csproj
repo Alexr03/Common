@@ -289,7 +289,7 @@
         <Compile Include="Web\Attributes\ActionFilters\DisallowDirect.cs" />
         <Compile Include="Web\Attributes\ActionFilters\RequestActionLogAttribute.cs" />
         <Compile Include="Web\Binders\JsonModelBinder.cs" />
-        <Compile Include="Web\Helpers\ControllerHelper.cs" />
+        <Compile Include="Web\Helpers\ControllerExtensions.cs" />
         <Compile Include="Web\Helpers\DataSourceRequestExtensions.cs" />
         <Compile Include="Web\Helpers\FormCollectionExtensions.cs" />
         <Compile Include="Web\Helpers\HtmlHelperExtensions.cs" />
