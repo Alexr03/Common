@@ -95,7 +95,7 @@ namespace Alexr03.Common.TCAdmin.Objects
             var whereList = new WhereList
             {
                 {nameof(moduleId), moduleId},
-                {nameof(configName), configName},
+                {"name", configName},
             };
 
             var moduleConfigurations =

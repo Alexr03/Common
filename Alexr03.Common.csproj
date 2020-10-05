@@ -258,7 +258,6 @@
         <Compile Include="ArCommonSettings.cs" />
         <Compile Include="Configuration\ConfigurationProvider.cs" />
         <Compile Include="Configuration\LocalConfiguration.cs" />
-        <Compile Include="Controllers\ArCommonController.cs" />
         <Compile Include="Deployment\Actions\DeploymentAction.cs" />
         <Compile Include="Deployment\DeploymentProfile.cs" />
         <Compile Include="Globals.cs" />
@@ -285,6 +284,7 @@
         <Compile Include="TCAdmin\Web\Attributes\ActionFilters\RequiresPermissionAttribute.cs" />
         <Compile Include="TCAdmin\Web\Binders\DynamicTypeBaseBinder.cs" />
         <Compile Include="TCAdmin\Web\Binders\DynamicTypeBaseBinderAttribute.cs" />
+        <Compile Include="TCAdmin\Web\Controllers\ArCommonController.cs" />
         <Compile Include="Utilities.cs" />
         <Compile Include="Web\Attributes\ActionFilters\DisallowDirect.cs" />
         <Compile Include="Web\Attributes\ActionFilters\RequestActionLogAttribute.cs" />
@@ -301,10 +301,11 @@
     </ItemGroup>
     <ItemGroup>
       <Content Include=".gitignore" />
+      <Content Include="install.sql" />
       <Content Include="Module.json" />
-      <Content Include="Views\Alexr03.Common.Controllers\ArCommon\ArCommonConfiguration.cshtml" />
-      <Content Include="Views\Alexr03.Common.Controllers\ArCommon\Index.cshtml" />
-      <Content Include="Views\Alexr03.Common.Controllers\ArCommon\Sql.cshtml" />
+      <Content Include="Views\Alexr03.Common.TCAdmin.Web.Controllers\ArCommon\ArCommonConfiguration.cshtml" />
+      <Content Include="Views\Alexr03.Common.TCAdmin.Web.Controllers\ArCommon\Index.cshtml" />
+      <Content Include="Views\Alexr03.Common.TCAdmin.Web.Controllers\ArCommon\Sql.cshtml" />
       <Content Include="Views\Shared\Main.Plugin.Alexr03Common.js" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

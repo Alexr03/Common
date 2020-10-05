@@ -8,7 +8,7 @@ using Newtonsoft.Json.Linq;
 using TCAdmin.SDK.Web.MVC.Controllers;
 using TCAdmin.Web.MVC;
 
-namespace Alexr03.Common.Controllers
+namespace Alexr03.Common.TCAdmin.Web.Controllers
 {
     [ExceptionHandler]
     [RoutePrefix("ArCommon")]
