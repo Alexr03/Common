@@ -303,11 +303,11 @@
       <Content Include=".gitignore" />
       <Content Include="install.sql" />
       <Content Include="Module.json" />
+      <Content Include="TCAdmin\Views\Alexr03.Common.TCAdmin.Web.Controllers\ArCommon\ArCommonConfiguration.cshtml" />
+      <Content Include="TCAdmin\Views\Alexr03.Common.TCAdmin.Web.Controllers\ArCommon\Index.cshtml" />
+      <Content Include="TCAdmin\Views\Alexr03.Common.TCAdmin.Web.Controllers\ArCommon\Sql.cshtml" />
+      <Content Include="TCAdmin\Views\Shared\Main.Plugin.Alexr03Common.js" />
       <Content Include="uninstall.sql" />
-      <Content Include="Views\Alexr03.Common.TCAdmin.Web.Controllers\ArCommon\ArCommonConfiguration.cshtml" />
-      <Content Include="Views\Alexr03.Common.TCAdmin.Web.Controllers\ArCommon\Index.cshtml" />
-      <Content Include="Views\Alexr03.Common.TCAdmin.Web.Controllers\ArCommon\Sql.cshtml" />
-      <Content Include="Views\Shared\Main.Plugin.Alexr03Common.js" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
