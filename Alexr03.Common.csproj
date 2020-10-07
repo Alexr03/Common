@@ -272,6 +272,7 @@
         <Compile Include="TCAdmin\Extensions\ControllerExtensions.cs" />
         <Compile Include="TCAdmin\Extensions\DynamicTypeBaseExtensions.cs" />
         <Compile Include="TCAdmin\Extensions\FormCollectionExtensions.cs" />
+        <Compile Include="TCAdmin\Extensions\WebExtensions.cs" />
         <Compile Include="TCAdmin\Extensions\XmlFieldExtensions.cs" />
         <Compile Include="TCAdmin\Misc\Strings\VariableReplacement.cs" />
         <Compile Include="TCAdmin\Objects\DynamicTypeBase.cs" />
