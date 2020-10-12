@@ -66,7 +66,7 @@ namespace Alexr03.Common.TCAdmin.Objects
             set => this.SetValue("configurationId", value);
         }
         
-        public ModuleConfiguration Configuration => new ModuleConfiguration(ConfigurationId, ConfigurationModuleId);
+        public virtual ModuleConfiguration Configuration => new ModuleConfiguration(ConfigurationId, ConfigurationModuleId);
 
         public object Create(object args = null)
         {
@@ -83,11 +83,15 @@ namespace Alexr03.Common.TCAdmin.Objects
             return (T) Activator.CreateInstance(Type, args);
         }
 
-        // ReSharper disable once UnusedMember.Global
-        // Used loosely typed.
-        public virtual ObjectBase FromIdAndModuleId(int id, string moduleId)
+        public DynamicTypeBase FindByType(Type type)
         {
-            throw new NotImplementedException();
+            var typeName = $"{type}, {type.Assembly.GetName().Name}";
+            var whereList = new WhereList
+            {
+                {"typeName", ColumnOperator.Like, typeName}
+            };
+            var dynamicTypes = new DynamicTypeBase(TableName).GetObjectList(whereList).Cast<DynamicTypeBase>().ToList();
+            return dynamicTypes.Any() ? dynamicTypes[0] : null;
         }
 
         public static DynamicTypeBase FindByType(string tableName, Type type)

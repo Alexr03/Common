@@ -7,20 +7,21 @@ namespace Alexr03.Common.TCAdmin.Extensions
 {
     public static class DynamicTypeBaseExtensions
     {
-        public static bool UpdateFromCollection(this DynamicTypeBase dynamicTypeBase,
-            FormCollection formCollection, ControllerContext controllerContext)
+        public static bool UpdateConfigurationFromCollection(this DynamicTypeBase dynamicTypeBase, FormCollection formCollection,
+            ControllerContext controllerContext)
         {
-            var bindModel = formCollection.Parse(controllerContext, dynamicTypeBase.Configuration.Type, dynamicTypeBase.Type.Name);
+            var bindModel = formCollection.Parse(controllerContext, dynamicTypeBase.Configuration.Type,
+                dynamicTypeBase.Type.Name);
             return dynamicTypeBase.Configuration.SetConfiguration(bindModel);
         }
 
-        public static ActionResult GetActionResultView(this DynamicTypeBase dynamicTypeBase,
+        public static ActionResult GetConfigurationResultView(this DynamicTypeBase dynamicTypeBase,
             ControllerBase controllerBase)
         {
-            return GetActionResultView(dynamicTypeBase, controllerBase, dynamicTypeBase.Type.Name);
+            return GetConfigurationResultView(dynamicTypeBase, controllerBase, dynamicTypeBase.Type.Name);
         }
-        
-        public static ActionResult GetActionResultView(this DynamicTypeBase dynamicTypeBase,
+
+        public static ActionResult GetConfigurationResultView(this DynamicTypeBase dynamicTypeBase,
             ControllerBase controllerBase, string htmlFieldPrefix)
         {
             var config = dynamicTypeBase.Configuration;

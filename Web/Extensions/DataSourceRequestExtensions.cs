@@ -7,14 +7,30 @@ namespace Alexr03.Common.Web.Extensions
 {
     public static class DataSourceRequestExtensions
     {
-        public static List<FilterDescriptor> GetFilters(this DataSourceRequest dataSourceRequest)
+        public static List<FilterDescriptor> GetAllFilterDescriptors(this DataSourceRequest request)
         {
-            return dataSourceRequest.Filters.Cast<FilterDescriptor>().ToList();
+            if (request == null)
+            {
+                return new List<FilterDescriptor>();
+            }
+            var allFilterDescriptors = new List<FilterDescriptor>();
+            RecurseFilterDescriptors(request.Filters, allFilterDescriptors);
+            return allFilterDescriptors;
         }
-        
-        public static List<GroupDescriptor> GetGroups(this DataSourceRequest dataSourceRequest)
+
+        private static void RecurseFilterDescriptors(IEnumerable<IFilterDescriptor> requestFilters, ICollection<FilterDescriptor> allFilterDescriptors)
         {
-            return dataSourceRequest.Groups.ToList();
+            foreach (var filterDescriptor in requestFilters)
+            {
+                if (filterDescriptor is FilterDescriptor descriptor)
+                {
+                    allFilterDescriptors.Add(descriptor);
+                }
+                else if (filterDescriptor is CompositeFilterDescriptor compositeFilterDescriptor)
+                {
+                    RecurseFilterDescriptors(compositeFilterDescriptor.FilterDescriptors, allFilterDescriptors);
+                }
+            }
         }
     }
 }

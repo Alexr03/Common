@@ -11,7 +11,8 @@ namespace Alexr03.Common.TCAdmin.Objects
 {
     public class ModuleConfiguration : ObjectBase
     {
-        public const string ConfigurationViewKey = "AR_COMMON:ConfigurationView";
+        public const string ViewKey = "AR_COMMON:ConfigurationView";
+        public const string AlwaysPullFromTypeKey = "AR_COMMON:AlwaysPullFromType";
 
         public ModuleConfiguration()
         {
@@ -67,19 +68,40 @@ namespace Alexr03.Common.TCAdmin.Objects
 
         public Type Type => Type.GetType(TypeName);
 
-        public bool HasView() => View != null;
+        public bool HasView => View != null;
 
         public virtual string View
         {
-            get => this.AppData.HasValueAndSet(ConfigurationViewKey)
-                ? this.AppData[ConfigurationViewKey].ToString()
+            get => this.AppData.HasValueAndSet(ViewKey)
+                ? this.AppData[ViewKey].ToString()
                 : null;
-            set => this.AppData[ConfigurationViewKey] = value;
+            set => this.AppData[ViewKey] = value;
+        }
+
+        private void PreParse()
+        {
+            if (string.IsNullOrEmpty(Contents) || Contents == "{}" || (AppData.HasValueAndSet(AlwaysPullFromTypeKey) && bool.Parse(AppData[AlwaysPullFromTypeKey].ToString())))
+            {
+                SetConfiguration(Activator.CreateInstance(Type));
+            }
         }
 
         public T Parse<T>()
         {
-            return JsonConvert.DeserializeObject<T>(Contents ?? "{}");
+            PreParse();
+            return JsonConvert.DeserializeObject<T>(Contents);
+        }
+        
+        public object Parse(Type type)
+        {
+            PreParse();
+            return JsonConvert.DeserializeObject(Contents, type);
+        }
+        
+        public object Parse()
+        {
+            PreParse();
+            return JsonConvert.DeserializeObject(Contents, Type);
         }
 
         public bool SetConfiguration(object config)
