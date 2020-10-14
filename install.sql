@@ -1,6 +1,8 @@
 ﻿INSERT INTO tc_modules (module_id, display_name, version, enabled, config_page, component_directory, security_class)
 VALUES ('4911e2b1-49a5-4bcd-a768-a59419cf2fc7', 'Alexr03 Common', '2.0', 1, null, null, null);
 
+# ----------------------------------------------------------------------------------------------------------------------
+
 create table ar_common_configurations
 (
     id       int         not null,
@@ -14,7 +16,7 @@ create table ar_common_configurations
 
 INSERT INTO ar_common_configurations (id, moduleId, name, typeName, contents, app_data)
 VALUES (1, '4911e2b1-49a5-4bcd-a768-a59419cf2fc7', 'ArCommonSettings',
-        'Alexr03.Common.ArCommonSettings, Alexr03.Common', '{"MinimumLogLevel":1}', '<?xml version="1.0" encoding="utf-16" standalone="yes"?>
+        'Alexr03.Common.ArCommonSettings, Alexr03.Common', '{}', '<?xml version="1.0" encoding="utf-16" standalone="yes"?>
 <values>
   <add key="AR_COMMON:ConfigurationView" value="ArCommonConfiguration" type="System.String,mscorlib" />
 </values>');
@@ -29,6 +31,8 @@ create table ar_common_sql_scripts
     primary key (id, moduleId)
 );
 
+# ----------------------------------------------------------------------------------------------------------------------
+
 INSERT INTO tc_module_server_components (module_id, component_id, display_name, short_name, description,
                                          component_type, visible, component_class, required, startup_order)
 VALUES ('4911e2b1-49a5-4bcd-a768-a59419cf2fc7', 1, 'Alexr03 Common Service', 'arcommon',
@@ -37,6 +41,8 @@ VALUES ('4911e2b1-49a5-4bcd-a768-a59419cf2fc7', 1, 'Alexr03 Common Service', 'ar
 
 INSERT INTO tc_server_enabled_components (module_id, component_id, server_id)
 VALUES ('4911e2b1-49a5-4bcd-a768-a59419cf2fc7', 1, 1);
+
+# ----------------------------------------------------------------------------------------------------------------------
 
 INSERT INTO tc_panelbar_categories (category_id, module_id, display_name, view_order, parent_category_id,
                                     parent_module_id, page_id, panelbar_icon)
