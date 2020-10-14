@@ -6,12 +6,14 @@ using Alexr03.Common.Configuration;
 using Alexr03.Common.TCAdmin.Objects;
 using Serilog;
 using Serilog.Events;
+using TCAdmin.Interfaces.Logging;
+using TCAdmin.SDK;
 
 namespace Alexr03.Common.Logging
 {
     public class Logger
     {
-        private const string LogBaseLocation = "./Components/{0}/Logs/{1}/{2}/{2}.log";
+        private readonly string _logBaseLocation = "./Components/{0}/Logs/{1}/{2}/{2}.log";
         public string Application { get; }
         public Serilog.Core.Logger InternalLogger { get; }
         private string LogLocation { get; }
@@ -37,12 +39,18 @@ namespace Alexr03.Common.Logging
                 loggerConfiguration.MinimumLevel.Is(arCommonSettings.MinimumLogLevel);
             }
             
+            if (Utilities.IsRunningOnTcAdmin)
+            {
+                _logBaseLocation = _logBaseLocation.Replace("./", Utility.GetMonitorLogPath());
+            }
+            
             if (Type != null)
             {
                 var assemblyName = Type.Assembly.GetName().Name;
                 LogLocation =
                     Path.Combine(
-                        LogBaseLocation.Replace("{0}", assemblyName)
+                        _logBaseLocation
+                            .Replace("{0}", assemblyName)
                             .Replace("{1}", Type.Namespace?.Replace(assemblyName, "").Trim('.'))
                             .Replace("{2}", application));
                 loggerConfiguration.WriteTo.File(LogLocation, rollingInterval: RollingInterval.Day, shared: true);

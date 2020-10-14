@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using System.Diagnostics;
+using Newtonsoft.Json;
 
 namespace Alexr03.Common
 {
@@ -35,5 +37,24 @@ namespace Alexr03.Common
                 }
             }
         }
+        
+        public static bool IsRunningOn(ERunningOn runningOn)
+        {
+            switch (runningOn)
+            {
+                case ERunningOn.Iis:
+                    return Process.GetCurrentProcess().ProcessName.Contains("w3wp");
+                case ERunningOn.IisExpress:
+                    return Process.GetCurrentProcess().ProcessName.Contains("iisexpress");
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(runningOn), runningOn, null);
+            }
+        }
+    }
+    
+    public enum ERunningOn
+    {
+        Iis,
+        IisExpress,
     }
 }
