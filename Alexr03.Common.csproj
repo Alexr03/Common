@@ -309,6 +309,7 @@
       <Content Include="TCAdmin\Views\Alexr03.Common.TCAdmin.Web.Controllers\ArCommon\Index.cshtml" />
       <Content Include="TCAdmin\Views\Alexr03.Common.TCAdmin.Web.Controllers\ArCommon\Sql.cshtml" />
       <Content Include="TCAdmin\Views\Shared\Main.Plugin.Alexr03Common.js" />
+      <Content Include="TCAdmin\Views\Shared\_Head.Plugin.Alexr03Common.cshtml" />
       <Content Include="uninstall.sql" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -4,26 +4,29 @@ Alexr03.Common = function Alexr03$Common() {
 
     function _handleAjaxSuccess(e, okFunction) {
         if(!isFunction(okFunction)){
-            okFunction = function(e) {}
-        }
-        if (e.Message) {
-            TCAdmin.Ajax.ShowBasicDialog("Success!", e.Message, okFunction);
+            toastr["success"]("Success", e.Message)
+        }else{
+            if (e.Message) {
+                TCAdmin.Ajax.ShowBasicDialog("Success!", e.Message, okFunction);
+            }
         }
 
-        kendo.ui.progress($(document.body), false)
+        _handleAjaxComplete();
     }
 
     function _handleAjaxError(e, okFunction) {
         if(!isFunction(okFunction)){
-            okFunction = function(e) {}
+            toastr["success"]("Success", e.responseJSON.Message)
         }
-        if (e.responseJSON && e.responseJSON.Message) {
-            TCAdmin.Ajax.ShowBasicDialog("Error!", e.responseJSON.Message, okFunction);
-        } else {
-            TCAdmin.Ajax.ShowBasicDialog("Error!", "An error has occured! Please try again later.", okFunction)
+        else{
+            if (e.responseJSON && e.responseJSON.Message) {
+                TCAdmin.Ajax.ShowBasicDialog("Error!", e.responseJSON.Message, okFunction);
+            } else {
+                TCAdmin.Ajax.ShowBasicDialog("Error!", "An error has occured! Please try again later.", okFunction)
+            }
         }
 
-        kendo.ui.progress($(document.body), false)
+        _handleAjaxComplete();
     }
 
     function _handleAjaxBegin() {
