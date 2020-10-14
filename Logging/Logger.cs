@@ -86,7 +86,9 @@ namespace Alexr03.Common.Logging
 
         public List<FileInfo> GetLogFiles()
         {
-            return new FileInfo(LogLocation).Directory?.GetFiles().ToList();
+            var directoryInfo = new FileInfo(LogLocation).Directory;
+            directoryInfo?.Create();
+            return directoryInfo?.GetFiles().ToList();
         }
 
         public FileInfo GetCurrentLogFile()
