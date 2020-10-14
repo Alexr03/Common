@@ -3,6 +3,9 @@
 Alexr03.Common = function Alexr03$Common() {
 
     function _handleAjaxSuccess(e, okFunction) {
+        if(!isFunction(okFunction)){
+            okFunction = function(e) {}
+        }
         if (e.Message) {
             TCAdmin.Ajax.ShowBasicDialog("Success!", e.Message, okFunction);
         }
@@ -11,6 +14,9 @@ Alexr03.Common = function Alexr03$Common() {
     }
 
     function _handleAjaxError(e, okFunction) {
+        if(!isFunction(okFunction)){
+            okFunction = function(e) {}
+        }
         if (e.responseJSON && e.responseJSON.Message) {
             TCAdmin.Ajax.ShowBasicDialog("Error!", e.responseJSON.Message, okFunction);
         } else {
@@ -26,6 +32,10 @@ Alexr03.Common = function Alexr03$Common() {
 
     function _handleAjaxComplete() {
         kendo.ui.progress($(document.body), false)
+    }
+
+    function isFunction(functionToCheck) {
+        return functionToCheck && {}.toString.call(functionToCheck) === '[object Function]';
     }
 
     return {

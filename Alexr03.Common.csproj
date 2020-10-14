@@ -279,6 +279,7 @@
         <Compile Include="TCAdmin\Objects\ModuleConfiguration.cs" />
         <Compile Include="TCAdmin\Objects\SqlScript.cs" />
         <Compile Include="TCAdmin\Permissions\PermissionManager.cs" />
+        <Compile Include="TCAdmin\Permissions\SecurityBypass.cs" />
         <Compile Include="TCAdmin\Proxy\ProxyManager.cs" />
         <Compile Include="TCAdmin\Proxy\Requests\ProxyRequest.cs" />
         <Compile Include="TCAdmin\Services\ArCommonService.cs" />
