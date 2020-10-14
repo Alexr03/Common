@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using Alexr03.Common.TCAdmin.Web.Binders;
 using TCAdmin.Interfaces.Database;
@@ -65,8 +66,9 @@ namespace Alexr03.Common.TCAdmin.Objects
             get => this.GetIntegerValue("configurationId");
             set => this.SetValue("configurationId", value);
         }
-        
-        public virtual ModuleConfiguration Configuration => new ModuleConfiguration(ConfigurationId, ConfigurationModuleId);
+
+        public virtual ModuleConfiguration Configuration =>
+            new ModuleConfiguration(ConfigurationId, ConfigurationModuleId);
 
         public object Create(object args = null)
         {
@@ -103,6 +105,23 @@ namespace Alexr03.Common.TCAdmin.Objects
             };
             var dynamicTypes = new DynamicTypeBase(tableName).GetObjectList(whereList).Cast<DynamicTypeBase>().ToList();
             return dynamicTypes.Any() ? dynamicTypes[0] : null;
+        }
+
+        public static object GetDynamicCurrentTypeBase(Type type, string idParam = "id")
+        {
+            if (!global::TCAdmin.SDK.Utility.IsWebEnvironment())
+            {
+                throw new Exception("Is not web environment");
+            }
+
+            if (!HttpContext.Current.Request.RequestContext.RouteData.Values.TryGetValue(idParam, out var id)) return null;
+            var idInteger = int.Parse(id.ToString());
+            return Activator.CreateInstance(type, idInteger);
+        }
+
+        public static T GetDynamicCurrentTypeBase<T>(string idParam = "id")
+        {
+            return (T) GetDynamicCurrentTypeBase(typeof(T), idParam);
         }
     }
 }
