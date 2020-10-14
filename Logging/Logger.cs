@@ -102,7 +102,7 @@ namespace Alexr03.Common.Logging
         public FileInfo GetCurrentLogFile()
         {
             var fileInfos = GetLogFiles().OrderByDescending(x => x.LastWriteTimeUtc).ToList();
-            return fileInfos?[0];
+            return fileInfos[0];
         }
 
         public void LogMessage(LogEventLevel logLevel, string message)
