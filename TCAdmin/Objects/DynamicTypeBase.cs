@@ -1,8 +1,11 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Alexr03.Common.TCAdmin.Web.Binders;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using TCAdmin.Interfaces.Database;
 using TCAdmin.SDK.Objects;
 
@@ -107,21 +110,38 @@ namespace Alexr03.Common.TCAdmin.Objects
             return dynamicTypes.Any() ? dynamicTypes[0] : null;
         }
 
-        public static object GetDynamicCurrentTypeBase(Type type, string idParam = "id")
+        public static object GetCurrent(Type type, string idParam = "id")
         {
             if (!global::TCAdmin.SDK.Utility.IsWebEnvironment())
             {
                 throw new Exception("Is not web environment");
             }
 
-            if (!HttpContext.Current.Request.RequestContext.RouteData.Values.TryGetValue(idParam, out var id)) return null;
+            var id = (HttpContext.Current.Request.RequestContext.RouteData.Values[idParam] ??
+                      HttpContext.Current.Request[idParam]) ??
+                     HttpContext.Current.Request.Headers[idParam] ??
+                     JsonConvert.DeserializeObject<JObject>(RequestBody(HttpContext.Current.Request.InputStream))[idParam];
+
+            if (id == null)
+            {
+                return null;
+            }
+
             var idInteger = int.Parse(id.ToString());
             return Activator.CreateInstance(type, idInteger);
         }
 
-        public static T GetDynamicCurrentTypeBase<T>(string idParam = "id")
+        public static T GetCurrent<T>(string idParam = "id")
         {
-            return (T) GetDynamicCurrentTypeBase(typeof(T), idParam);
+            return (T) GetCurrent(typeof(T), idParam);
+        }
+        
+        private static string RequestBody(Stream stream)
+        {
+            var bodyStream = new StreamReader(stream);
+            bodyStream.BaseStream.Seek(0, SeekOrigin.Begin);
+            var bodyText = bodyStream.ReadToEnd();
+            return bodyText;
         }
     }
 }
