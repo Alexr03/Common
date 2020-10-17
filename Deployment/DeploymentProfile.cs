@@ -20,11 +20,11 @@ namespace Alexr03.Common.Deployment
         public void Run()
         {
             var logger = Logger.Create<DeploymentProfile>();
-            logger.LogMessage("Running " + this.Name);
+            logger.Information("Running " + this.Name);
             foreach (var deploymentAction in this.Actions)
             {
                 deploymentAction.Execute();
-                logger.LogMessage($"[{deploymentAction.GetType().Name}] - Running!");
+                logger.Information($"[{deploymentAction.GetType().Name}] - Running!");
             }
         }
     }

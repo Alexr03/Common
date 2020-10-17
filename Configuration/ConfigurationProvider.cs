@@ -23,7 +23,7 @@ namespace Alexr03.Common.Configuration
 
         protected T GetTObject()
         {
-            _logger.LogMessage("Generated default config for " + typeof(T).Name);
+            _logger.Information("Generated default config for " + typeof(T).Name);
             if (typeof(T).IsValueType || typeof(T) == typeof(string)) return default;
             return (T) Activator.CreateInstance(typeof(T));
         }

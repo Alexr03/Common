@@ -41,7 +41,7 @@ namespace Alexr03.Common.Logging
             
             if (Utilities.IsRunningOnTcAdmin)
             {
-                _logBaseLocation = _logBaseLocation.Replace("./", Utility.GetMonitorLogPath());
+                _logBaseLocation = _logBaseLocation.Replace("./", Path.Combine(Utility.GetLogPath(), "../"));
             }
             
             if (Type != null)
@@ -82,14 +82,34 @@ namespace Alexr03.Common.Logging
             return logger;
         }
 
-        public void LogMessage(string message)
+        public void Information(string message)
         {
             LogMessage(LogEventLevel.Information, message);
         }
 
-        public void LogDebugMessage(string message)
+        public void Debug(string message)
         {
             LogMessage(LogEventLevel.Debug, message);
+        }
+        
+        public void Error(string message)
+        {
+            LogMessage(LogEventLevel.Error, message);
+        }
+        
+        public void Fatal(string message)
+        {
+            LogMessage(LogEventLevel.Fatal, message);
+        }
+        
+        public void Verbose(string message)
+        {
+            LogMessage(LogEventLevel.Verbose, message);
+        }
+        
+        public void Warning(string message)
+        {
+            LogMessage(LogEventLevel.Warning, message);
         }
 
         public List<FileInfo> GetLogFiles()

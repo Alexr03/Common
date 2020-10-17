@@ -39,7 +39,7 @@ namespace Alexr03.Common.Configuration
                 fileInfo.Directory?.Create();
                 if (!fileInfo.Exists)
                 {
-                    _logger.LogMessage($"Config '{fileInfo.Name}' does not exist. Auto generating.");
+                    _logger.Information($"Config '{fileInfo.Name}' does not exist. Auto generating.");
                     var defaultT = GetTObject();
                     SetConfiguration(defaultT);
                     return defaultT;
@@ -64,7 +64,7 @@ namespace Alexr03.Common.Configuration
                 var serializedObject = JsonConvert.SerializeObject(config, Formatting.Indented);
                 File.WriteAllText(_configLocation, serializedObject, Encoding.Default);
 
-                _logger.LogMessage("Saved new Configuration: " + ConfigName);
+                _logger.Information("Saved new Configuration: " + ConfigName);
                 return true;
             }
             catch (Exception e)
