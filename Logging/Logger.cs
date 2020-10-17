@@ -81,6 +81,11 @@ namespace Alexr03.Common.Logging
             var logger = new Logger(typeof(T).Name, typeof(T));
             return logger;
         }
+        
+        public void LogMessage(string message)
+        {
+            LogMessage(LogEventLevel.Information, message);
+        }
 
         public void Information(string message)
         {
