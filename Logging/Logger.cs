@@ -58,6 +58,10 @@ namespace Alexr03.Common.Logging
             else
             {
                 LogLocation = $"./Components/Misc/Logs/{application}/{application}.log";
+                if (Utilities.IsRunningOnTcAdmin)
+                {
+                    LogLocation = LogLocation.Replace("./", Path.Combine(Utility.GetLogPath(), "../"));
+                }
                 loggerConfiguration.WriteTo.File(LogLocation, rollingInterval: RollingInterval.Day, shared: true);
             }
 
