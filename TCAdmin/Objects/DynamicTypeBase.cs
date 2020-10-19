@@ -136,7 +136,7 @@ namespace Alexr03.Common.TCAdmin.Objects
             return (T) GetCurrent(typeof(T), idParam);
         }
 
-        private static string RequestBody(Stream stream)
+        public static string RequestBody(Stream stream)
         {
             var bodyStream = new StreamReader(stream);
             bodyStream.BaseStream.Seek(0, SeekOrigin.Begin);
