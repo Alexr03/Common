@@ -157,9 +157,22 @@ namespace Alexr03.Common.TCAdmin.Objects
             {
                 {nameof(moduleId), moduleId},
             };
+            return GetModuleConfigurationsObjectList(whereList).Cast<ModuleConfiguration>().ToList();
+        }
+        
+        public static ObjectList GetModuleConfigurationsObjectList(string moduleId)
+        {
+            var whereList = new WhereList
+            {
+                {nameof(moduleId), moduleId}
+            };
 
-            var moduleConfigurations =
-                new ModuleConfiguration().GetObjectList(whereList).Cast<ModuleConfiguration>().ToList();
+            return GetModuleConfigurationsObjectList(whereList);
+        }
+        
+        public static ObjectList GetModuleConfigurationsObjectList(WhereList whereList)
+        {
+            var moduleConfigurations = new ModuleConfiguration().GetObjectList(whereList);
             return moduleConfigurations;
         }
     }

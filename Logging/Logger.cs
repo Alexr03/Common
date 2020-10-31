@@ -139,6 +139,12 @@ namespace Alexr03.Common.Logging
             InternalLogger.Write(logLevel, message);
             LogReceived?.Invoke(logLevel, InternalLogger, message, Application);
         }
+        
+        public void LogMessage(LogLevel logLevel, string message)
+        {
+            InternalLogger.Write((LogEventLevel)logLevel, message);
+            LogReceived?.Invoke((LogEventLevel)logLevel, InternalLogger, message, Application);
+        }
 
         public void LogException(Exception exception)
         {
@@ -155,5 +161,15 @@ namespace Alexr03.Common.Logging
 
         public delegate void LogExceptionRaised(LogEventLevel logLevel, Serilog.Core.Logger logger, Exception exception,
             string application);
+    }
+    
+    public enum LogLevel
+    {
+        Verbose,
+        Debug,
+        Information,
+        Warning,
+        Error,
+        Fatal
     }
 }

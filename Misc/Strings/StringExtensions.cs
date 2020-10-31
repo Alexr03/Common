@@ -1,10 +1,16 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
+using Alexr03.Common.Web.Models;
 
 namespace Alexr03.Common.Misc.Strings
 {
     public static class StringExtensions
     {
+        public static HtmlString ToHtml(this string s)
+        {
+            return new HtmlString(s);
+        } 
+        
         public static string SplitEveryCapital(this string s)
         {
             var regex = new Regex(@"

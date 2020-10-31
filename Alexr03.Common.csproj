@@ -264,6 +264,7 @@
         <Compile Include="Logging\Logger.cs" />
         <Compile Include="Misc\Enums\EnumHelper.cs" />
         <Compile Include="Misc\Json\Converters\ListToCsvConverter.cs" />
+        <Compile Include="Misc\Other\DictionaryExtensions.cs" />
         <Compile Include="Misc\Strings\StringExtensions.cs" />
         <Compile Include="Misc\Strings\VariableReplacements.cs" />
         <Compile Include="Misc\Versions\VersionExtensions.cs" />
@@ -295,7 +296,9 @@
         <Compile Include="Web\Extensions\DataSourceRequestExtensions.cs" />
         <Compile Include="Web\Extensions\FormCollectionExtensions.cs" />
         <Compile Include="Web\Extensions\HtmlHelperExtensions.cs" />
+        <Compile Include="Web\Extensions\HttpContextExtensions.cs" />
         <Compile Include="Web\HttpResponses\JsonNetResult.cs" />
+        <Compile Include="Web\Models\HtmlString.cs" />
     </ItemGroup>
     <ItemGroup>
       <None Include="app.config" />
