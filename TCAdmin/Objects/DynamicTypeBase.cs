@@ -90,6 +90,18 @@ namespace Alexr03.Common.TCAdmin.Objects
             return (T) Activator.CreateInstance(Type, args);
         }
 
+        public DynamicTypeBase FindBy(WhereList whereList)
+        {
+            var dynamicTypes = new DynamicTypeBase(TableName).GetObjectList(whereList).Cast<DynamicTypeBase>().ToList();
+            return dynamicTypes.Any() ? dynamicTypes[0] : null;
+        }
+
+        public List<DynamicTypeBase> FindAllBy(WhereList whereList)
+        {
+            var dynamicTypes = new DynamicTypeBase(TableName).GetObjectList(whereList).Cast<DynamicTypeBase>().ToList();
+            return dynamicTypes;
+        }
+
         public DynamicTypeBase FindByType(Type type)
         {
             var typeName = $"{type}, {type.Assembly.GetName().Name}";
@@ -97,19 +109,7 @@ namespace Alexr03.Common.TCAdmin.Objects
             {
                 {"typeName", ColumnOperator.Like, typeName}
             };
-            var dynamicTypes = new DynamicTypeBase(TableName).GetObjectList(whereList).Cast<DynamicTypeBase>().ToList();
-            return dynamicTypes.Any() ? dynamicTypes[0] : null;
-        }
-
-        public static DynamicTypeBase FindByType(string tableName, Type type)
-        {
-            var typeName = $"{type}, {type.Assembly.GetName().Name}";
-            var whereList = new WhereList
-            {
-                {"typeName", ColumnOperator.Like, typeName}
-            };
-            var dynamicTypes = new DynamicTypeBase(tableName).GetObjectList(whereList).Cast<DynamicTypeBase>().ToList();
-            return dynamicTypes.Any() ? dynamicTypes[0] : null;
+            return FindBy(whereList);
         }
 
         public static object GetCurrent(Type type, string idParam = "id")
@@ -143,7 +143,7 @@ namespace Alexr03.Common.TCAdmin.Objects
         {
             return this.GetObjectList(whereList ?? new WhereList());
         }
-        
+
         public List<T> GetAll<T>(WhereList whereList = null)
         {
             return this.GetObjectList(whereList ?? new WhereList()).Cast<T>().ToList();
