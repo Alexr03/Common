@@ -4,7 +4,9 @@ Alexr03.Common = function Alexr03$Common() {
 
     function _handleAjaxSuccess(e, okFunction) {
         if (!isFunction(okFunction)) {
-            toastr["success"]("Success", e.Message)
+            if(e.Message){
+                toastr["success"]("Success", e.Message)
+            }
         } else {
             if (e.Message) {
                 TCAdmin.Ajax.ShowBasicDialog("Success!", e.Message, okFunction);
@@ -16,7 +18,11 @@ Alexr03.Common = function Alexr03$Common() {
 
     function _handleAjaxError(e, okFunction) {
         if (!isFunction(okFunction)) {
-            toastr["error"]("Error", e.responseJSON.Message)
+            if (e.responseJSON && e.responseJSON.Message) {
+                toastr["error"]("Error", e.responseJSON.Message)
+            }else{
+                toastr["error"]("Error", "An error has occured! Please try again later.")
+            }
         } else {
             if (e.responseJSON && e.responseJSON.Message) {
                 TCAdmin.Ajax.ShowBasicDialog("Error!", e.responseJSON.Message, okFunction);
