@@ -308,11 +308,11 @@
       <Content Include=".gitignore" />
       <Content Include="install.sql" />
       <Content Include="Module.json" />
-      <Content Include="TCAdmin\Views\Alexr03.Common.TCAdmin.Web.Controllers\ArCommon\ArCommonConfiguration.cshtml" />
-      <Content Include="TCAdmin\Views\Alexr03.Common.TCAdmin.Web.Controllers\ArCommon\Index.cshtml" />
-      <Content Include="TCAdmin\Views\Alexr03.Common.TCAdmin.Web.Controllers\ArCommon\Sql.cshtml" />
-      <Content Include="TCAdmin\Views\Shared\Main.Plugin.Alexr03Common.js" />
-      <Content Include="TCAdmin\Views\Shared\_Head.Plugin.Alexr03Common.cshtml" />
+      <Content Include="TCAdmin\Web\Views\Alexr03.Common.TCAdmin.Web.Controllers\ArCommon\ArCommonConfiguration.cshtml" />
+      <Content Include="TCAdmin\Web\Views\Alexr03.Common.TCAdmin.Web.Controllers\ArCommon\Index.cshtml" />
+      <Content Include="TCAdmin\Web\Views\Alexr03.Common.TCAdmin.Web.Controllers\ArCommon\Sql.cshtml" />
+      <Content Include="TCAdmin\Web\Views\Shared\Main.Plugin.Alexr03Common.js" />
+      <Content Include="TCAdmin\Web\Views\Shared\_Head.Plugin.Alexr03Common.cshtml" />
       <Content Include="uninstall.sql" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

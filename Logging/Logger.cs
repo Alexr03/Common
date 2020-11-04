@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Alexr03.Common.Configuration;
 using Alexr03.Common.TCAdmin.Objects;
 using Serilog;
 using Serilog.Events;
-using TCAdmin.Interfaces.Logging;
 using TCAdmin.SDK;
 
 namespace Alexr03.Common.Logging
@@ -32,18 +32,9 @@ namespace Alexr03.Common.Logging
             {
                 var arCommonSettings = ModuleConfiguration.GetModuleConfiguration(Globals.ModuleId, "ArCommonSettings").Parse<ArCommonSettings>();
                 loggerConfiguration.MinimumLevel.Is(arCommonSettings.MinimumLogLevel);
-            }
-            else
-            {
-                var arCommonSettings = new LocalConfiguration<ArCommonSettings>().GetConfiguration();
-                loggerConfiguration.MinimumLevel.Is(arCommonSettings.MinimumLogLevel);
-            }
-            
-            if (Utilities.IsRunningOnTcAdmin)
-            {
                 _logBaseLocation = _logBaseLocation.Replace("./", Path.Combine(Utility.GetLogPath(), "../"));
             }
-            
+
             if (Type != null)
             {
                 var assemblyName = Type.Assembly.GetName().Name;

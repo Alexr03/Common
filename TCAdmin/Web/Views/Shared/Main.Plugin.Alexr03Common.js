@@ -4,7 +4,7 @@ Alexr03.Common = function Alexr03$Common() {
 
     function _handleAjaxSuccess(e, okFunction) {
         if (!isFunction(okFunction)) {
-            if(e.Message){
+            if (e.Message) {
                 toastr["success"]("Success", e.Message)
             }
         } else {
@@ -20,7 +20,7 @@ Alexr03.Common = function Alexr03$Common() {
         if (!isFunction(okFunction)) {
             if (e.responseJSON && e.responseJSON.Message) {
                 toastr["error"]("Error", e.responseJSON.Message)
-            }else{
+            } else {
                 toastr["error"]("Error", "An error has occured! Please try again later.")
             }
         } else {
@@ -42,13 +42,86 @@ Alexr03.Common = function Alexr03$Common() {
         kendo.ui.progress($(document.body), false)
     }
 
+    function _warningDialog(title, message) {
+        return new Promise(function (ok, cancel) {
+            $("<div id='warningDialog'></div>").kendoDialog({
+                width: "500px",
+                title: title,
+                closable: true,
+                modal: true,
+                content: `
+                <div class="row">
+                    <div class="col-3 d-flex justify-content-center">
+                        <span class="k-icon k-i-warning" style="font-size: 64px;color:orange"></span>
+                    </div>
+                    <div class="col">
+                        ` + message + `
+                    </div>
+                </div>`,
+                actions: [
+                    {
+                        text: 'Close', action: function (e) {
+                            cancel(e)
+                        }
+                    },
+                    {
+                        text: 'Ok', primary: true, action: function (e) {
+                            ok(e)
+                        }
+                    }
+                ],
+                close: function (e) {
+                    e.sender.destroy();
+                }
+            });
+            $("#warningDialog").data("kendoDialog").open();
+        })
+    }
+
+    function _dangerDialog(title, message) {
+        return new Promise(function (ok, cancel) {
+            $("<div id='dangerDialog'></div>").kendoDialog({
+                width: "500px",
+                title: title,
+                closable: true,
+                modal: true,
+                content: `
+                <div class="row">
+                    <div class="col-3 d-flex justify-content-center">
+                        <span class="k-icon k-i-warning" style="font-size: 64px;color:red"></span>
+                    </div>
+                    <div class="col">
+                        ` + message + `
+                    </div>
+                </div>`,
+                actions: [
+                    {
+                        text: 'Close', action: function (e) {
+                            cancel(e)
+                        }
+                    },
+                    {
+                        text: 'Ok', primary: true, action: function (e) {
+                            ok(e)
+                        }
+                    }
+                ],
+                close: function (e) {
+                    e.sender.destroy();
+                }
+            });
+            $("#dangerDialog").data("kendoDialog").open();
+        })
+    }
+
     function isFunction(functionToCheck) {
         return functionToCheck && {}.toString.call(functionToCheck) === '[object Function]';
     }
 
     function _executePopupScript(url, extraArgs, title, closeText, onClose) {
         if (onClose == null) {
-            onClose = function () { };
+            onClose = function () {
+            };
         }
         console.log(extraArgs)
         let success = false;
@@ -142,7 +215,7 @@ Alexr03.Common = function Alexr03$Common() {
                 go();
             })
         }
-        
+
         data = {};
         data.Url = url;
         data.ExtraArgs = extraArgs;
@@ -154,6 +227,8 @@ Alexr03.Common = function Alexr03$Common() {
         HandleAjaxFailure: _handleAjaxError,
         HandleAjaxBegin: _handleAjaxBegin,
         HandleAjaxComplete: _handleAjaxComplete,
-        ExecutePopupScript: _executePopupScript
+        ExecutePopupScript: _executePopupScript,
+        WarningDialog: _warningDialog,
+        DangerDialog: _dangerDialog
     }
 }();
