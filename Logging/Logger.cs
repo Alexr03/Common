@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using Alexr03.Common.Configuration;
-using Alexr03.Common.TCAdmin.Objects;
 using Serilog;
 using Serilog.Events;
-using TCAdmin.SDK;
 
 namespace Alexr03.Common.Logging
 {
@@ -28,12 +24,12 @@ namespace Alexr03.Common.Logging
                 $"[{application}" + " {Timestamp:HH:mm:ss.ff} {Level:u3}] {Message:lj}{NewLine}{Exception}";
             var loggerConfiguration = new LoggerConfiguration()
                 .WriteTo.Console(outputTemplate: consoleOutputTemplate);
-            if (Utilities.IsRunningOnTcAdmin)
-            {
-                var arCommonSettings = ModuleConfiguration.GetModuleConfiguration(Globals.ModuleId, "ArCommonSettings").Parse<ArCommonSettings>();
-                loggerConfiguration.MinimumLevel.Is(arCommonSettings.MinimumLogLevel);
-                _logBaseLocation = _logBaseLocation.Replace("./", Path.Combine(Utility.GetLogPath(), "../"));
-            }
+            // if (Utilities.IsRunningOnTcAdmin)
+            // {
+            //     var arCommonSettings = ModuleConfiguration.GetModuleConfiguration(Globals.ModuleId, "ArCommonSettings").Parse<ArCommonSettings>();
+            //     loggerConfiguration.MinimumLevel.Is(arCommonSettings.MinimumLogLevel);
+            //     _logBaseLocation = _logBaseLocation.Replace("./", Path.Combine(Utility.GetLogPath(), "../"));
+            // }
 
             if (Type != null)
             {
@@ -49,10 +45,10 @@ namespace Alexr03.Common.Logging
             else
             {
                 LogLocation = $"./Components/Misc/Logs/{application}/{application}.log";
-                if (Utilities.IsRunningOnTcAdmin)
-                {
-                    LogLocation = LogLocation.Replace("./", Path.Combine(Utility.GetLogPath(), "../"));
-                }
+                // if (Utilities.IsRunningOnTcAdmin)
+                // {
+                //     LogLocation = LogLocation.Replace("./", Path.Combine(Utility.GetLogPath(), "../"));
+                // }
                 loggerConfiguration.WriteTo.File(LogLocation, rollingInterval: RollingInterval.Day, shared: true);
             }
 

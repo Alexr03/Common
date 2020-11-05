@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Web.Mvc;
-using TCAdmin.SDK;
 
 namespace Alexr03.Common.Web.Attributes.ActionFilters
 {
@@ -29,7 +28,6 @@ namespace Alexr03.Common.Web.Attributes.ActionFilters
             var controllerName = routeData.Values["controller"].ToString();
             var actionName = routeData.Values["action"].ToString();
             var message = $"Controller: {controllerName}\nAction: {actionName}\nEvent Type: {eventType}";
-            LogManager.WriteToLog(controllerName, message, true, _logName);
             if (_debug)
             {
                 Console.WriteLine(RequestReceived);
@@ -39,11 +37,9 @@ namespace Alexr03.Common.Web.Attributes.ActionFilters
             foreach (var contextActionParameter in context.ActionParameters)
             {
                 var parameterMessage = $"|--- {contextActionParameter.Key} = {contextActionParameter.Value}";
-                LogManager.WriteToLog(controllerName, parameterMessage, true, _logName);
                 if (_debug) Console.WriteLine(parameterMessage);
             }
 
-            LogManager.WriteToLog(controllerName, Separator, true, _logName);
             if (_debug) Console.WriteLine(Separator);
         }
     }

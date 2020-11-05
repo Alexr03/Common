@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.Collections.Generic;
 using System.Text;
 using Alexr03.Common.Misc.Other;
+using Random = Alexr03.Common.Misc.Random;
 
 namespace Alexr03.Common.Web.Models
 {
     public class HtmlString
     {
         private readonly string _text;
-        private readonly string _id = global::TCAdmin.SDK.Misc.Random.RandomString(8, true, false);
+        private readonly string _id = Random.RandomString(8);
         private string _tag = "div";
         private readonly IDictionary<string, object> _htmlAttributes = new Dictionary<string, object>();
 

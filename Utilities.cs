@@ -11,28 +11,17 @@ namespace Alexr03.Common
             Error = (sender, args) => { args.ErrorContext.Handled = true; }
         };
 
-        private static bool _hasRunIsRunningOnTcAdmin;
-        private static bool _isRunningOnTcAdmin;
         public static bool IsRunningOnTcAdmin
         {
             get
             {
-                if (_hasRunIsRunningOnTcAdmin)
-                {
-                    return _isRunningOnTcAdmin;
-                }
-                
-                _hasRunIsRunningOnTcAdmin = true;
                 try
                 {
-                    var databaseProvider = global::TCAdmin.SDK.Database.DatabaseManager.CreateDatabaseManager(true);
-                    databaseProvider.Disconnect();
-                    _isRunningOnTcAdmin = true;
+                    var _ = Type.GetType("TCAdmin.SDK.Misc.Random, TCAdmin.SDK");
                     return true;
                 }
-                catch
+                catch (Exception e)
                 {
-                    _isRunningOnTcAdmin = false;
                     return false;
                 }
             }
