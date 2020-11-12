@@ -23,7 +23,8 @@ namespace Alexr03.Common.Logging
             var consoleOutputTemplate =
                 $"[{application}" + " {Timestamp:HH:mm:ss.ff} {Level:u3}] {Message:lj}{NewLine}{Exception}";
             var loggerConfiguration = new LoggerConfiguration()
-                .WriteTo.Console(outputTemplate: consoleOutputTemplate);
+                .WriteTo.Console(outputTemplate: consoleOutputTemplate)
+                .MinimumLevel.Debug();
             // if (Utilities.IsRunningOnTcAdmin)
             // {
             //     var arCommonSettings = ModuleConfiguration.GetModuleConfiguration(Globals.ModuleId, "ArCommonSettings").Parse<ArCommonSettings>();

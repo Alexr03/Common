@@ -276,6 +276,7 @@
         <Compile Include="Web\Extensions\FormCollectionExtensions.cs" />
         <Compile Include="Web\Extensions\HtmlHelperExtensions.cs" />
         <Compile Include="Web\Extensions\HttpContextExtensions.cs" />
+        <Compile Include="Web\Extensions\JavascriptExtensions.cs" />
         <Compile Include="Web\HttpResponses\JsonNetResult.cs" />
         <Compile Include="Web\Models\HtmlString.cs" />
     </ItemGroup>

@@ -66,7 +66,7 @@ namespace Alexr03.Common.Web.Models
             }
 
             var sb = new StringBuilder();
-            sb.Append($"<{_tag} id={_id} {attributes}>{_text}</{_tag}>");
+            sb.Append($"<{_tag} id=\"{_id}\" {attributes}>{_text}</{_tag}>");
             return sb.ToString();
         }
     }

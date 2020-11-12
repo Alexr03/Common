@@ -48,5 +48,10 @@ namespace Alexr03.Common.Misc.Strings
                 return sb.ToString();
             }
         }
+
+        public static string ReplaceWhitespace(this string s, string replaceWith = "_")
+        {
+            return s.Replace(" ", replaceWith);
+        }
     }
 }

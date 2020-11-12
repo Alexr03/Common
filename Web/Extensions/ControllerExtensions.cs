@@ -42,6 +42,14 @@ namespace Alexr03.Common.Web.Extensions
             }, HttpStatusCode.InternalServerError);
         }
 
+        public static void SetHtmlFieldPrefix(this ControllerBase controllerBase, string s)
+        {
+            controllerBase.ViewData.TemplateInfo = new TemplateInfo
+            {
+                HtmlFieldPrefix = s
+            };
+        }
+
         public static void PrepareAjax(this ControllerBase controllerBase, string contentType = "application/json")
         {
             controllerBase.ControllerContext.HttpContext.Response.BufferOutput = false;
@@ -59,10 +67,10 @@ namespace Alexr03.Common.Web.Extensions
             WriteAjaxMessage(controllerBase, message.ToString(), logger, level);
         }
 
-        public static void WriteAjaxMessage(this ControllerBase controllerBase, string message)
+        public static void WriteAjaxMessage(this ControllerBase controllerBase, string message, bool success = true)
         {
             controllerBase.ControllerContext.HttpContext.Response.Clear();
-            var serializeObject = JsonConvert.SerializeObject(new {Message = message});
+            var serializeObject = JsonConvert.SerializeObject(new {Message = message, Success = success});
             controllerBase.ControllerContext.HttpContext.Response.Write(serializeObject);
             controllerBase.ControllerContext.HttpContext.Response.Flush();
         }
@@ -72,6 +80,22 @@ namespace Alexr03.Common.Web.Extensions
         {
             WriteAjaxMessage(controllerBase, message);
             logger.LogMessage((LogEventLevel)level, message);
+        }
+        
+        public static void WriteAjaxSuccess(this ControllerBase controllerBase)
+        {
+            controllerBase.ControllerContext.HttpContext.Response.Clear();
+            var serializeObject = JsonConvert.SerializeObject(new {Success = true});
+            controllerBase.ControllerContext.HttpContext.Response.Write(serializeObject);
+            controllerBase.ControllerContext.HttpContext.Response.Flush();
+        }
+        
+        public static void WriteAjaxError(this ControllerBase controllerBase)
+        {
+            controllerBase.ControllerContext.HttpContext.Response.Clear();
+            var serializeObject = JsonConvert.SerializeObject(new {Success = false});
+            controllerBase.ControllerContext.HttpContext.Response.Write(serializeObject);
+            controllerBase.ControllerContext.HttpContext.Response.Flush();
         }
     }
 }

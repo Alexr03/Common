@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>Alexr03.Common</id>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <title>Alexr03.Common</title>
     <authors>Alex Redding</authors>
     <owners>Alex Redding</owners>
@@ -26,6 +26,6 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="bin\debug\Alexr03.Common.dll" target="lib\net472\Alexr03.Common.dll" />
+    <file src="..\bin\debug\Alexr03.Common.dll" target="lib\net472\Alexr03.Common.dll" />
   </files>
 </package>
