@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Web.Configuration;
 using Serilog;
 using Serilog.Events;
 
@@ -46,11 +48,13 @@ namespace Alexr03.Common.Logging
             else
             {
                 LogLocation = $"./Components/Misc/Logs/{application}/{application}.log";
-                // if (Utilities.IsRunningOnTcAdmin)
-                // {
-                //     LogLocation = LogLocation.Replace("./", Path.Combine(Utility.GetLogPath(), "../"));
-                // }
                 loggerConfiguration.WriteTo.File(LogLocation, rollingInterval: RollingInterval.Day, shared: true);
+            }
+            
+            if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings.Get("TCAdmin.LogPath")))
+            {
+                Console.WriteLine("[DENIS HELP] Got here - " + Path.Combine(ConfigurationManager.AppSettings["TCAdmin.LogPath"], "../"));
+                LogLocation = LogLocation.Replace("./", Path.Combine(ConfigurationManager.AppSettings["TCAdmin.LogPath"], "../"));
             }
 
             InternalLogger = loggerConfiguration.CreateLogger();
@@ -119,7 +123,12 @@ namespace Alexr03.Common.Logging
         public FileInfo GetCurrentLogFile()
         {
             var fileInfos = GetLogFiles().OrderByDescending(x => x.LastWriteTimeUtc).ToList();
-            return fileInfos[0];
+            if (fileInfos.Count >= 1)
+            {
+                return fileInfos[0];
+            }
+
+            return null;
         }
 
         public void LogMessage(LogEventLevel logLevel, string message)

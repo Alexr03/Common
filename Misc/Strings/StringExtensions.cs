@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using System.Text.RegularExpressions;
 using Alexr03.Common.Web.Models;
 
@@ -52,6 +53,11 @@ namespace Alexr03.Common.Misc.Strings
         public static string ReplaceWhitespace(this string s, string replaceWith = "_")
         {
             return s.Replace(" ", replaceWith);
+        }
+
+        public static string FullNameWithAssembly(this Type type)
+        {
+            return type.FullName + "," + type.Assembly.GetName().Name;
         }
     }
 }

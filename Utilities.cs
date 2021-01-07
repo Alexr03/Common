@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json;
 
 namespace Alexr03.Common
@@ -21,7 +22,7 @@ namespace Alexr03.Common
                     var _ = Type.GetType("TCAdmin.SDK.Misc.Random, TCAdmin.SDK");
                     return true;
                 }
-                catch (Exception e)
+                catch
                 {
                     return false;
                 }
@@ -32,9 +33,9 @@ namespace Alexr03.Common
         {
             switch (runningOn)
             {
-                case ERunningOn.Iis:
+                case ERunningOn.IIS:
                     return Process.GetCurrentProcess().ProcessName.Contains("w3wp");
-                case ERunningOn.IisExpress:
+                case ERunningOn.IISExpress:
                     return Process.GetCurrentProcess().ProcessName.Contains("iisexpress");
                 default:
                     throw new ArgumentOutOfRangeException(nameof(runningOn), runningOn, null);
@@ -42,9 +43,10 @@ namespace Alexr03.Common
         }
     }
     
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public enum ERunningOn
     {
-        Iis,
-        IisExpress,
+        IIS,
+        IISExpress,
     }
 }
