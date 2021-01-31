@@ -53,7 +53,6 @@ namespace Alexr03.Common.Logging
             
             if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings.Get("TCAdmin.LogPath")))
             {
-                Console.WriteLine("[DENIS HELP] Got here - " + Path.Combine(ConfigurationManager.AppSettings["TCAdmin.LogPath"], "../"));
                 LogLocation = LogLocation.Replace("./", Path.Combine(ConfigurationManager.AppSettings["TCAdmin.LogPath"], "../"));
             }
 
